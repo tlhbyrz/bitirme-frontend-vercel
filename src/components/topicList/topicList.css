@@ -1,0 +1,100 @@
+
+.left-widget{
+    width: 100%;
+    position: sticky;
+    top: 150px;
+}
+
+.topics-title{
+    margin-bottom: 15px;
+    text-align: left;
+    text-transform: capitalize;
+    padding: 0 25px;
+}
+
+.topic-card-list{
+    height: 100%;
+    max-height: calc(100vh - 300px);
+    overflow-y: scroll;
+    padding: 3px 10px;
+}
+
+.topic-card-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.topic-card-list::-webkit-scrollbar-track {
+    background: #1e1e2400;
+}
+
+.topic-card-list::-webkit-scrollbar-thumb {
+    background: #343a408c;
+    border-radius: 25px;
+}
+
+.topic-card{
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px 15px 5px 15px;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: .3s all ease;
+}
+
+.topic-card:hover{
+    box-shadow: 0 0 4px  rgba(0, 0, 0, .35);
+}
+
+.topic-card-text{
+    font-size: 15px;
+    line-height: 1.7;
+    color: black;
+    font-weight: 600;
+    text-decoration: underline;
+    -webkit-text-underline-position: under;
+    -ms-text-underline-position: below;
+    text-underline-position: under; 
+  }
+
+
+.topic-card-badges{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}  
+
+.topic-card-badge{
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 2px 10px;
+}
+  
+
+.topic-card-footer{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topic-card-date{
+    font-size: 12px;
+    color: black;
+}
+
+.topic-card-postCount{
+    font-size: 10px;
+    background: #E0E0E0;
+    padding: 3px 15px;
+    font-weight: bold;
+    border-radius: 25px;
+    color: black;
+}

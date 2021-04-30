@@ -1,0 +1,44 @@
+
+
+.sendpost-textarea{
+    border: 1px solid #c4c4c4;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+.sendpost-textarea textarea{
+    background: transparent;
+    appearance: none;
+    resize: none;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    height: 70px;   
+    font-size: 14px;
+}
+
+.sendpost-textarea textarea::placeholder{
+    color: #aaaaaa;
+}
+
+.modal-img-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-img-container button{
+    width: 200px;
+    padding: 6px 15px;
+    margin-top: 15px;
+    background: rgb(255, 123, 123);
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.send-post-img{
+    width: 200px;
+    object-fit: contain;
+    margin-top: 25px;
+}

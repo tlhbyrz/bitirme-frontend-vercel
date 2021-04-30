@@ -1,0 +1,52 @@
+
+
+
+
+
+.filter-box{
+    margin: 15px 0;
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #343a401f;
+    border-radius: 6px;
+    padding: 0 15px;
+    color: #17272F;
+}
+
+.filter-box h6{
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: none;
+  }
+
+.filter-box .selectbox {
+  position: relative; 
+  margin-top: 6px;
+}  
+
+.filter-box .selectbox select {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 5px 20px 5px 5px;
+    position: relative;
+    font-weight: 600;
+}
+
+.filter-box .selectbox select:focus{
+    outline: none;
+}
+
+.filter-box .selectbox i {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: 1px;
+    font-size: 12px;
+    color: #aaa;
+    pointer-events: none;
+}  

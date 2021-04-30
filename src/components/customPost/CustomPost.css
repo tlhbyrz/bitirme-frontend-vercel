@@ -1,0 +1,323 @@
+
+
+.custom-post{
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 13px 16px 20px;
+    margin-bottom: 20px;
+}
+
+.post-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #EDF0F5;
+    cursor: pointer;
+}
+
+.post-author{
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.post-author img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.post-author .name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #17272F;
+}
+
+.post-author .date,
+.post-author .job-title {
+  font-size: 10px;
+  color: #aaa;
+}  
+
+.post-author .job-title {
+    padding: 2px 0;
+}
+
+.more{
+    position: relative;
+}
+
+.more i{
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #343a40;
+    font-size: 18px;
+    transition: all ease .2s;
+}
+
+.more i:hover{
+    color:  #343a40;
+    background: #343a401f;
+}
+
+.post-options{
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    right: 0;
+    width: 150px;
+    padding: 6px 12px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all ease 0.3s;
+}
+
+.options-show{
+    opacity: 1;
+    pointer-events: visible;
+}
+
+.post-option{
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 4px;
+    margin: 6px 0;
+    padding: 12px 0;
+    transition: all ease-in 0.2s;
+}
+
+.post-option:hover{
+    background: #0066996b;
+    color: white;
+    cursor: pointer;
+}
+
+.post-content{
+    padding: 20px 0;
+}
+
+.post-content p{
+    font-size: 14px;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+}
+
+.post-content p img{
+    width: 100%;
+    border-radius: 10px;
+    max-height: 300px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.post-content p a{
+    font-weight: 600;
+    color: #006699;
+}
+
+.post-alt-detail{
+    display: flex;
+    font-size: 10px;
+    color: #17272F;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #EDF0F5;
+    margin-bottom: 14px;
+}
+
+.post-alt-detail .likes{
+    display: flex;
+    margin-right: 10px;
+    padding-right: 10px;
+    align-items: center;
+    position: relative;
+}
+
+.post-alt-detail .likes::before{
+    content: '';
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #17272F;
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    margin-top: -1px;
+}
+
+.post-alt-detail img{
+    margin-right: 6px;
+    width: 15px;
+    height: 15px;
+}
+
+.post-alt-detail i{
+    font-size: 14px;
+    margin-right: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.post-alt-detail i::after{
+    content: '';
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    z-index: -1;
+}
+
+.post-actions{
+    display: flex;
+    padding-bottom: 5px;
+}
+
+.post-action,
+.post-action-active{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.post-action p,
+.post-action-active p{
+    font-size: 16px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.post-action i,
+.post-action-active i {
+    font-size: 14px;
+    margin-right: 3px;
+}
+
+.post-action p,
+.post-action i{
+    color: #aaa;
+}
+
+.post-action-active p,
+.post-action-active i{
+    color: #006699;
+    font-weight: 600;
+}
+
+.post-comment-form{
+    display: flex;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.post-comment-form img {
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.post-comment-form .textarea{
+    flex: 1;
+    border: 1px solid #EDF0F5;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.post-comment-form .textarea textarea{
+    background: transparent;
+    appearance: none;
+    resize: none;
+    width: 100%;
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    height: 50px;   
+    font-size: 14px;
+}
+
+.post-comment-form .textarea textarea::placeholder{
+    color: #DEDEDE;
+}
+
+.post-comment-form .textarea label{
+    cursor: pointer;
+    border-left: 1px solid #EDF0F5;
+    padding-left: 16px;
+    font-size: 18px;
+    color: #A7B4CC;
+    padding-right: 5px;
+}
+
+.post-comment-form .textarea label input{
+    display: none;
+}
+
+.post-comment-form .textarea label:hover{
+    color: #A7B4CC;
+}
+
+.send-comment-btn{
+    outline: none;
+    padding: 4px 20px;
+    background: #343a40;
+    color: white;
+    border-radius: 6px;
+    margin-top: 8px;
+    margin-left: auto;
+}
+
+.timeline-post-comment{
+    display: flex;
+    align-items: flex-start;
+    margin: 20px 0 10px 30px;
+}
+
+.timeline-post-comment img{
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+}
+
+.timeline-post-comment-details{
+    flex: 1;
+    padding-left: 10px;
+}
+
+.timeline-post-comment-details p{
+    font-weight: 600;
+    color: #343a40;
+    font-size: 13px;
+}
+
+.timeline-comment-date {
+    font-size: 10px !important;
+    color: #aaa !important;
+    margin-bottom: 2px;
+}
+
+.timeline-post-comment-details span{
+    color: #343a40;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.more-comment-btn{
+    text-align: center;
+    margin-top: 15px;
+    color: #1F9BCF;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
