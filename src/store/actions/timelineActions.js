@@ -70,11 +70,23 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
             },
         }
 
-        const { data } = await axios.post(APP_URL + `/api/post/`, { text: text, image: image, topic_id: topicId }, config)
+        const imgConfig = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`
+            },
+        }
+
+        let fd = new FormData();
+        fd.append("file", image)
+
+        const { data } = await axios.post(APP_URL + `/api/post/uploadImage`, fd, imgConfig);
+
+        const res = await axios.post(APP_URL + `/api/post/`, { text: text, image: data.image, topic_id: topicId }, config)
 
         dispatch({
             type: SEND_NEW_POST_SUCCESS,
-            payload: data.posts
+            payload: res.data.posts
         })
 
         cogoToast.success("Post gönderildi!", { position: 'top-center', heading: 'Post GÖNDER' });

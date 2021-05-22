@@ -13,7 +13,7 @@ const initialState = {
     topicCategory: null,
     pagination: 0,
     loading: false,
-    error: false
+    error: null
 }
 
 export const topicReducer = (state = initialState, action) => {

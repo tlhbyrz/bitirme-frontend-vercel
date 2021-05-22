@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, Fragment} from 'react'
 import "./selectCategory.css"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { allCategories } from "../../constants/categories"
 import { setTopicCategory } from "../../store/actions/topicActions"
 import useKeyboardEvent from "../../customHook/KeyPress"
@@ -8,6 +8,8 @@ import { getAllTopics, resetTopicCategory } from "../../store/actions/topicActio
 
 const SelectCategory = () => {
     const dispatch = useDispatch();
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin;
 
     useKeyboardEvent('Escape', () => {
         setOpen(false);
@@ -45,6 +47,10 @@ const SelectCategory = () => {
         dispatch(getAllTopics());
         setOpen(false);
         setMainSelected(true);
+    }
+
+    if(!userInfo){
+        return null
     }
 
     return (

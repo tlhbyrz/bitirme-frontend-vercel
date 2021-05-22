@@ -78,7 +78,7 @@ const HomeScreen = () => {
                 }
 
                 {
-                    !userInfo ? <p>Buraya topice ait postlar gelecek...</p>
+                    !userInfo ? null
                         :
                         loading ? <Loader /> :
                             error ? <Message variant='danger'>{error}</Message> :

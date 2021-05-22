@@ -82,12 +82,22 @@ const CreateTopicModal = (props) => {
     }
 
     function uploadImage(e) {
-        if (e.target.files[0].size > 1500000) {
-            cogoToast.error("Dosya büyüklüğü 1.5MB'dan büyük olamaz!", { position: 'top-center', heading: 'Too Big!' });
-            return;
+        if(e.target.files.length > 0){
+            if (e.target.files[0].size > 1500000) {
+                cogoToast.error("Dosya büyüklüğü 1.5MB'dan büyük olamaz!", { position: 'top-center', heading: 'Boyut Hatası!' });
+                return;
+            }
+    
+            if(e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpg" || e.target.files[0].type === "image/jpeg"){
+                setImagePreview(URL.createObjectURL(e.target.files[0]));
+                setImage(e.target.files[0]);
+            }else{
+                setImagePreview(null);
+                setImage(null);
+                cogoToast.error("Seçtiğiniz dosya formatı desteklenmemektedir!", { position: 'top-center', heading: 'Format Desteklenmiyor!' });
+                return;
+            }
         }
-        setImagePreview(URL.createObjectURL(e.target.files[0]));
-        setImage(e.target.files[0]);
     }
 
     function deleteImage() {

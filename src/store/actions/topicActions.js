@@ -53,11 +53,10 @@ export const getAllTopics = () => async (dispatch, getState) => {
         
 
     } catch (error) {
+        console.log("getalltopics:", error.message)
         dispatch({
             type: TOPIC_REQ_ERROR,
-            payload: error.response && error.response.data.msg
-                ? error.response.data.msg
-                : error.message,
+            payload: error.message,
         })
 
         cogoToast.error("Konuları listelemede problem yaşıyoruz. Lütfen daha sonra tekrar deneyin!", { position: 'top-center', heading: 'Konular' });
