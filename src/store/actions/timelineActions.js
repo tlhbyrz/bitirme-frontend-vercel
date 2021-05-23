@@ -77,19 +77,23 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
             },
         }
 
-        let fd = new FormData();
-        fd.append("file", image)
+        let uploadedImg = null;
+        if(image){
+            let fd = new FormData();
+            fd.append("file", image)
+    
+            const { data } = await axios.post(APP_URL + `/api/post/uploadImage`, fd, imgConfig);
+            uploadedImg = data;
+        }
 
-        const { data } = await axios.post(APP_URL + `/api/post/uploadImage`, fd, imgConfig);
-
-        const res = await axios.post(APP_URL + `/api/post/`, { text: text, image: data.image, topic_id: topicId }, config)
+        const res = await axios.post(APP_URL + `/api/post/`, { text: text, image: uploadedImg.image, topic_id: topicId }, config)
 
         dispatch({
             type: SEND_NEW_POST_SUCCESS,
             payload: res.data.posts
         })
 
-        cogoToast.success("Post gönderildi!", { position: 'top-center', heading: 'Post GÖNDER' });
+        cogoToast.success("Post gönderildi!", { position: 'top-center', heading: 'Post Gönder' });
         handleClose();
 
         setTimeout(() => {
@@ -105,7 +109,7 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
                 ? error.response.data.message
                 : error.message,
         })
-        cogoToast.error("Some errors occured. Please try later!", { position: 'top-center', heading: 'Send Post' });
+        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center', heading: 'Post Gönder' });
     }
 }
 
