@@ -86,7 +86,7 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
             uploadedImg = data;
         }
 
-        const res = await axios.post(APP_URL + `/api/post/`, { text: text, image: uploadedImg.image, topic_id: topicId }, config)
+        const res = await axios.post(APP_URL + `/api/post/`, { text: text, image: uploadedImg ? uploadedImg.image : null, topic_id: topicId }, config)
 
         dispatch({
             type: SEND_NEW_POST_SUCCESS,

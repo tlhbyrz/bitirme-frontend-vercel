@@ -5,7 +5,6 @@ import Lightbox from "react-awesome-lightbox";
 import { useDispatch, useSelector } from "react-redux";
 
 import { likePost, unlikePost, dislikePost, undislikePost, commentToPost, deletePostFromTimeline } from "../../store/actions/timelineActions"
-import { LinkContainer } from 'react-router-bootstrap';
 import fromDateToNow from "date-fns/formatDistanceToNowStrict"
 
 import HeartSvg from "../../assets/heart.svg"
@@ -14,6 +13,7 @@ import FlipMove from 'react-flip-move';
 import TimeLİneComment from "./timelineComment/TimeLİneComment"
 import { Button, Modal } from 'react-bootstrap';
 import { Fragment } from 'react';
+import { APP_URL } from "../../constants/data";
 
 const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
     const dispatch = useDispatch();
@@ -186,18 +186,15 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                 <p>
                     {postDetail.text}
                 </p>
-                {/* <p>
-                    <a href="#">#discount</a> <a href="#">#free</a> <a href="#">#price</a>
-                </p> */}
                 {
                     postDetail.image &&
                     <>
                         <p>
-                            <img src={postDetail.image} onClick={openLightbox} />
+                            <img src={APP_URL + "/" + postDetail.image} onClick={openLightbox} />
                         </p>
                         {
                             light &&
-                            <Lightbox image={postDetail.image} title="Image Title" onClose={openLightbox} />
+                            <Lightbox image={APP_URL + "/" + postDetail.image} title="Image Title" onClose={openLightbox} />
                         }
                     </>
                 }
@@ -248,7 +245,7 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                         </div>
                     </div>
                     <div className="align-right">
-                        <button className="send-comment-btn" onClick={sendComment}>Send</button>
+                        <button className="send-comment-btn" onClick={sendComment}>Gönder</button>
                     </div>
 
                     <FlipMove>
@@ -261,7 +258,7 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
 
                     { 
                         postDetail.comments.length > commentCount && (
-                            <p className="more-comment-btn" onClick={moreComment}>Show more</p>
+                            <p className="more-comment-btn" onClick={moreComment}>Daha fazla...</p>
                         )
                     }
                 </div>
