@@ -25,10 +25,20 @@ const CreateTopicModal = (props) => {
     const [subCategory, setSubCategory] = useState(null);
     const [categoryItem, setCategoryItem] = useState(null);
     const [image, setImage] = useState(null);
+    const [imageError, setImageError] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [titleError, setTitleError] = useState(null);
     const [textError, setTextError] = useState(null);
     const [categoriesError, setCategoriesError] = useState(null);
+
+    useEffect(() =>{
+        setMainCategory(null)
+        setSubCategory(null)
+        setImageError(null)
+        setTextError(null)
+        setCategoriesError(null);
+        setTitleError(null)
+    }, [show])
 
 
     async function sendNewTopic() {
@@ -38,17 +48,23 @@ const CreateTopicModal = (props) => {
         }else{
             setTitleError(null)
         }
+        if (!mainCategory) {
+            setCategoriesError("Kategori eklemelisin!");
+            return
+        }else{
+            setCategoriesError(null);
+        }
         if (!text.length > 0) {
             setTextError("Açıklama metninin uzunluğu 0'dan büyük olmalıdır!");
             return
         }else{
             setTextError(null)
         }
-        if (!categoryItem > 0) {
-            setCategoriesError("Kategori eklemelisin!");
+        if (!image) {
+            setImageError("Başlığı doğruluğunu destekleyecek bir ekran görüntüsü eklemelisin!");
             return
         }else{
-            setCategoriesError(null);
+            setImageError(null)
         }
 
         if (text.length > 0 && title.length > 0) {
@@ -64,7 +80,38 @@ const CreateTopicModal = (props) => {
     
             try {
                 const { data } = await axios.post(APP_URL + `/api/post/uploadImage`, fd, config);
-                dispatch(sendTopic(title, text, categoryItem, data.image, handleClose));
+
+                let formatted = null;
+
+                if(mainCategory && !subCategory && !categoryItem){
+                    formatted = {
+                        value: mainCategory.value,
+                        label: mainCategory.label,
+                        parent:{ 
+                            value: mainCategory.value,
+                            label: mainCategory.label
+                        },
+                        main:{ 
+                            value: mainCategory.value,
+                            label: mainCategory.label
+                        }
+                    }
+                }else if(subCategory && !categoryItem){
+                    formatted = {
+                        value: subCategory.value,
+                        label: subCategory.label,
+                        parent:{ 
+                            value: subCategory.value,
+                            label: subCategory.label
+                        },
+                        main:{ 
+                            value: mainCategory.value,
+                            label: mainCategory.label
+                        }
+                    }
+                }
+
+                dispatch(sendTopic(title, text, formatted ? formatted : categoryItem, data.image, handleClose));
 
             } catch (error) {
                 console.log(error.message);
@@ -105,17 +152,17 @@ const CreateTopicModal = (props) => {
     }
 
     function handleCategory(options){
-        console.log("main",options);
+        setCategoryItem(null);
+        setSubCategory(null);
+        handleSubCategory(null)
         setMainCategory(options);
     }
 
     function handleSubCategory(options){
-        console.log("sub",options);
         setSubCategory(options);
     }
 
     function handleSelectCategory(options){
-        console.log("items",options);
         setCategoryItem(options);
     }
 
@@ -159,7 +206,9 @@ const CreateTopicModal = (props) => {
                             label: item.label
                         }
                     })} 
+                    isClearable={true}
                     onChange={handleCategory} />
+                    
                     {
                         categoriesError &&
                         <Form.Text className="text-danger">
@@ -170,7 +219,7 @@ const CreateTopicModal = (props) => {
                 {
                     mainCategory && 
                     <Form.Group controlId='text' >
-                        <Form.Label>Alt Kategoriyi Seç</Form.Label>
+                        <Form.Label>Alt Kategoriyi Seç (*opsiyonel)</Form.Label>
                         <Select 
                         options={allCategories.find(item => item.value === mainCategory.value).categories?.map(item => {
                             return {
@@ -178,13 +227,14 @@ const CreateTopicModal = (props) => {
                                 label: item.label
                             }
                         })} 
+                        isClearable={true}
                         onChange={handleSubCategory} />
                     </Form.Group>
                 }
                 {
                     subCategory && 
                     <Form.Group controlId='text' >
-                        <Form.Label>Aradığın Ürünü Seç</Form.Label>
+                        <Form.Label>Aradığın Ürünü Seç (*opsiyonel)</Form.Label>
                         <Select 
                         options={allCategories.find(item => item.value === mainCategory.value).categories
                             .find(item => item.value === subCategory.value).items?.map(item => {
@@ -201,6 +251,7 @@ const CreateTopicModal = (props) => {
                                 }
                             }
                         })} 
+                        isClearable={true}
                         onChange={handleSelectCategory} />
                     </Form.Group>
                 }
@@ -226,6 +277,12 @@ const CreateTopicModal = (props) => {
                             <img className="send-post-img" src={imagePreview}></img>
                             <button onClick={deleteImage}>İptal Et</button>
                         </div>
+                    }
+                    {
+                        imageError &&
+                        <Form.Text className="text-danger">
+                            {imageError}
+                        </Form.Text>
                     }
                 </Form.Group>
             </Modal.Body>

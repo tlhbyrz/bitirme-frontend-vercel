@@ -61,8 +61,16 @@ const SelectCategory = () => {
                     label: "Elektronik",
                     type: "main"
                 })} className="category-list-btn">Elektronik</button>
-                <button onClick={() => console.log("clicked")} className="category-list-btn">Moda</button>
-                <button onClick={() => console.log("clicked")} className="category-list-btn">Kitap</button>
+                <button onClick={() => selectTopLevelCategory({
+                    value: "kadin-moda",
+                    label: "Kadın Moda",
+                    type: "main"
+                })} className="category-list-btn">Kadın Moda</button>
+                <button onClick={() => selectTopLevelCategory({
+                    value: "kitap",
+                    label: "Kitap",
+                    type: "main"
+                })} className="category-list-btn">Kitap</button>
                 <button onClick={() => selectTopLevelCategory({
                     value: "pc",
                     label: "Bilgisayar",
@@ -74,14 +82,13 @@ const SelectCategory = () => {
                     type: "main"
                 })} className="category-list-btn">Ev ve Yaşam</button>
                 <button onClick={() => console.log("clicked")} className="category-list-btn">Kişisel Bakım ve Kozmetik</button>
-                <button onClick={() => console.log("clicked")} className="category-list-btn">En Çok Beğenilenler</button>
             </div>
             <button onClick={() => setOpen(true)} className="all-category-btn"><i className="fas fa-bars"></i> Tümü</button>
             <div className={`category-sidebar ${openSidebar && "show-category-sidebar"}`}>
                 <div className="category-sidebar-top">
                     <h4>
                         <i className="fas fa-user-circle">
-                        </i>Merhaba, Giriş Yapın
+                        </i>Merhaba, {userInfo.name}
                     </h4>
                     <i onClick={() => setOpen(false)} className="fas fa-times close-category-btn"></i>
                 </div>
@@ -128,8 +135,8 @@ const SelectCategory = () => {
                                 <div className="category-sidebar-item">
                                     <h4>{item.label}</h4>
                                     {
-                                        item.items.map(product => (
-                                            <p onClick={() => selectCategory(product)}>{product.label}</p>
+                                        item.items.map((product, index) => (
+                                            <p key={index} onClick={() => selectCategory(product)}>{product.label}</p>
                                         ))
                                     }
                                 </div>
