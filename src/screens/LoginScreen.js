@@ -6,8 +6,11 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { login } from '../store/actions/userActions'
+import useQuery from "../customHook/GetQueryParams"
+import cogoToast from 'cogo-toast'
 
 const LoginScreen = ({ location, history }) => {
+    let query = useQuery();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -16,16 +19,22 @@ const LoginScreen = ({ location, history }) => {
     const userLogin = useSelector((state) => state.userLogin)
     const { loading, error, userInfo } = userLogin
 
-    const redirect = location.search ? location.search.split('=')[1] : '/'
-
     useEffect(() => {
         if (userInfo) {
-            history.push("/");
+            if(query.get("topic")){
+                history.push(`/home?topic=${query.get("topic")}`);
+            }else{
+                history.push("/home");
+            }
         }
-    }, [history, userInfo, redirect])
+    }, [history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()
+        if(!email || !password){
+            cogoToast.error("Email veya parola kısmı boş bırakılamaz!", { position: 'top-center' });
+            return;
+        }
         dispatch(login(email, password))
     }
 
@@ -67,7 +76,7 @@ const LoginScreen = ({ location, history }) => {
             <Row className='py-3'>
                 <Col>
                     Henüz hesabınız yok mu?{' '}
-                    <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+                    <Link to={query.get("topic") ? `/register?topic=${query.get("topic")}` :  '/register'}>
                         Hemen Kaydol
                     </Link>
                 </Col>

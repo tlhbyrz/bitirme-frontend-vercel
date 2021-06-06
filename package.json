@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "cogo-toast": "^4.2.3",
+    "compressor-img": "^1.0.7",
     "date-fns": "^2.16.1",
     "react": "^17.0.1",
     "react-awesome-lightbox": "^1.7.3",

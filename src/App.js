@@ -8,6 +8,7 @@ import RegisterScreen from "./screens/RegisterScreen"
 import HomeScreen from "./screens/HomeScreen"
 import ProfileScreen from "./screens/ProfileScreen"
 import PostDetailsScreen from "./screens/PostDetailsScreen"
+import NotFound from "./screens/NotFound"
 import SelectCategory from "./components/selectCategory/selectCategory"
 
 import "react-awesome-lightbox/build/style.css";
@@ -23,10 +24,12 @@ const App = () => {
             <Switch>
               <Route path='/' component={HomeScreen} exact />
               <Route path='/home' component={HomeScreen} exact />
+              <Route path='/home/:category' component={HomeScreen} />
               <Route path='/post/:id' component={PostDetailsScreen} />
               <Route path='/profile' component={ProfileScreen} exact />
               <Route path='/register' component={RegisterScreen} />
               <Route path='/login' component={LoginScreen} />
+              <Route path='*' component={NotFound} />
             </Switch>
           </Container>
         </main>

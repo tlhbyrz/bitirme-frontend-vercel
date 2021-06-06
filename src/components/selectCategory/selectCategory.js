@@ -1,13 +1,16 @@
 import React, {useState, Fragment} from 'react'
 import "./selectCategory.css"
 import { useDispatch, useSelector } from "react-redux"
+import {  useHistory  } from 'react-router-dom'
 import { allCategories } from "../../constants/categories"
 import { setTopicCategory } from "../../store/actions/topicActions"
 import useKeyboardEvent from "../../customHook/KeyPress"
 import { getAllTopics, resetTopicCategory } from "../../store/actions/topicActions"
 
 const SelectCategory = () => {
+    let history = useHistory();
     const dispatch = useDispatch();
+
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin;
 
@@ -23,18 +26,19 @@ const SelectCategory = () => {
     function changeMenu(item){
         setMainMenu(item);
         setMainSelected(false);
-    }
+    }  
 
     function selectCategory(item){
         dispatch(setTopicCategory({...item, type: "item"}));
         setOpen(false);
         setMainSelected(true);
-        dispatch(getAllTopics());
+        dispatch(getAllTopics(null));
     }
 
     function selectTopLevelCategory(item){
+        history.push(`/home/${item.value}?label=${item.label}`);
         dispatch(setTopicCategory(item));
-        dispatch(getAllTopics());
+        dispatch(getAllTopics(null));
     }
 
     function gotoMain(){
@@ -44,7 +48,7 @@ const SelectCategory = () => {
 
     function resetCategories(){
         dispatch(resetTopicCategory())
-        dispatch(getAllTopics());
+        dispatch(getAllTopics(null));
         setOpen(false);
         setMainSelected(true);
     }
@@ -98,24 +102,23 @@ const SelectCategory = () => {
                             <h4>Öne Çıkanlar</h4>
                             <p>En Popüler Konular</p>
                             <p onClick={resetCategories}>En Yeniler</p>
-                            <p>En Çok Beğenilenler</p>
                         </div>
                         <div className="category-sidebar-item">
                             <h4>Kategoriye Göre Seç</h4>
                             {
                                 allCategories.slice(0, showAllCategory ? allCategories.length : 4)
                                 .map(item => (
-                                    <p onClick={() => changeMenu(item)}>{item.label} <i class="fas fa-chevron-right"></i></p>
+                                    <p key={item.value} onClick={() => changeMenu(item)}>{item.label} <i className="fas fa-chevron-right"></i></p>
                                 ))
                             }
                             {
                                 showAllCategory ?
                                 <p onClick={() => setShowAllCategory(false)}>
-                                    Daha Az Görüntüle <i class="fas fa-chevron-up"></i>
+                                    Daha Az Görüntüle <i className="fas fa-chevron-up"></i>
                                 </p>
                                 :
                                 <p onClick={() => setShowAllCategory(true)}>
-                                    Tümünü Görüntüle <i class="fas fa-chevron-down"></i>
+                                    Tümünü Görüntüle <i className="fas fa-chevron-down"></i>
                                 </p>
                             }
                         </div>
@@ -132,7 +135,7 @@ const SelectCategory = () => {
                         </div>
                         {
                             mainMenu && mainMenu.categories && mainMenu.categories.map(item => (
-                                <div className="category-sidebar-item">
+                                <div key={item.value} className="category-sidebar-item">
                                     <h4>{item.label}</h4>
                                     {
                                         item.items.map((product, index) => (

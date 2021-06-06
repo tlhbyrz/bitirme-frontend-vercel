@@ -1,4 +1,18 @@
-// anakategori / subkategori / ürünler -> içinde parent kategori ve main kategori de eklenecek!
+
+export const mainCategories = [
+  "ayakkabı",
+  "bahce",
+  "bebek",
+  "pc",
+  "elektronik",
+  "ev-ve-yasam",
+  "kadin-moda",
+  "erkek-moda",
+  "kitap",
+  "telefon",
+  "televizyonlar-ve-ev-sinema-sistemleri",
+  "video-oyunu-ve-konsol"
+]
 
 export const allCategories = [
   {

@@ -11,18 +11,18 @@ const CreatePost = () => {
     return (
         <div className="create-post-container">
             <SendPostModal show={show} handleClose={handleClose} />
-            <div onClick={handleShow} className="create-post-input">
+            <div role="button" tabIndex="0" onClick={handleShow} className="create-post-input">
                 <i className="fas fa-edit"></i>
                 <p>Yeni gönderi oluştur...</p>
             </div>
 
             <div className="send-post">
                 <div className="send-post-icons">
-                    <div className="send-post-icon">
+                    <div role="button" tabIndex="1" className="send-post-icon" onClick={handleShow}>
                         <i className="fas fa-images"></i>
                         <p>Resim ekle</p>
                     </div>
-                    <div className="send-post-icon">
+                    <div role="button" tabIndex="1" className="send-post-icon" onClick={handleShow}>
                         <i className="fas fa-hashtag"></i>
                         <p>Yorum yap</p>
                     </div>

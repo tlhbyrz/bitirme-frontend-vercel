@@ -1,5 +1,4 @@
 import { GET_ALL_TOPICS,
-    GET_SINGLE_TOPIC,
     TOPIC_REQ_SUCCESS,
     TOPIC_REQ_ERROR,
     SET_ACTIVE_TOPIC,
@@ -12,7 +11,7 @@ const initialState = {
     activeTopic: null,
     topicCategory: null,
     pagination: 0,
-    loading: false,
+    loading: true,
     error: null
 }
 
@@ -21,7 +20,8 @@ export const topicReducer = (state = initialState, action) => {
         case GET_ALL_TOPICS:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: null
             }
         case SET_ACTIVE_TOPIC:
             return {
@@ -41,14 +41,8 @@ export const topicReducer = (state = initialState, action) => {
         case TOPIC_REQ_SUCCESS:
             return {
                 ...state,
-                topics: action.payload
-            }
-        case GET_SINGLE_TOPIC:
-            return {
-                ...state,
-                activeTopic: action.payload,
+                topics: action.payload,
                 loading: false,
-                error: null
             }
         case TOPIC_REQ_ERROR:
             return {

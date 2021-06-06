@@ -13,10 +13,6 @@ const ProfileScreen = ({ location, history }) => {
     const [message, setMessage] = useState(null)
 
     const dispatch = useDispatch()
-
-    const userDetails = useSelector((state) => state.userDetails)
-    const { user } = userDetails
-
     const userLogin = useSelector((state) => state.userLogin)
     const { loading, error, userInfo, success } = userLogin
 
@@ -25,31 +21,32 @@ const ProfileScreen = ({ location, history }) => {
         if (!userInfo) {
             history.push('/login')
         } else {
-            if (!user) {
-                dispatch(getAuthUser())
-            } else {
-                setName(user.name)
-                setEmail(user.email)
-            }
+            setName(userInfo.name)
+            setEmail(userInfo.email)
         }
-    }, [dispatch, history, userInfo, user])
+    }, [ history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()
-        if (password !== confirmPassword) {
-            setMessage('Passwords do not match')
+        if (!password) {
+            setMessage('Lütfen şifrenizi giriniz!')
+        }else if (password !== confirmPassword) {
+            setMessage('Lütfen şifrenizin uyuştuğundan emin olun!')
         } else {
             setMessage(null);
-            dispatch(updateUserInfo({ id: user._id, name, email, password }))
+            dispatch(updateUserInfo({ id: userInfo._id, name, email, password }))
         }
     }
 
     return (
         <Row>
-            <Col md={3}>
-                <h2>User Profile</h2>
+            <Col md={2} lg={3}>
+                
+            </Col>
+            <Col md={8} lg={6}>
+                <h2 className="active-topic-header">Bilgilerini Güncelle</h2>
                 {message && <Message variant='danger'>{message}</Message>}
-                {success && <Message variant='success'>{"User updated!"}</Message>}
+                {success && <Message variant='success'>{"Profil bilgileri güncellendi!"}</Message>}
                 {
                     error && error.map(item => (
                         <Message variant='danger'>{item}</Message>
@@ -58,52 +55,49 @@ const ProfileScreen = ({ location, history }) => {
                 {loading && <Loader />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Kullanıcı Adınız</Form.Label>
                         <Form.Control
                             type='name'
-                            placeholder='Enter name'
+                            placeholder='Kullanıocı adınızı yazınız...'
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId='email'>
-                        <Form.Label>Email Address</Form.Label>
+                        <Form.Label>Email Adresiniz</Form.Label>
                         <Form.Control
                             type='email'
-                            placeholder='Enter email'
+                            placeholder='Emailinizi yazınız...'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId='password'>
-                        <Form.Label>Password Address</Form.Label>
+                        <Form.Label>Şifreniz</Form.Label>
                         <Form.Control
                             type='password'
-                            placeholder='Enter password'
+                            placeholder='Şifrenizi yazınız...'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId='confirmPassword'>
-                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Label>Şifreniz Tekrar</Form.Label>
                         <Form.Control
                             type='password'
-                            placeholder='Confirm password'
+                            placeholder='Şifrenizi tekrar yazınız...'
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         ></Form.Control>
                     </Form.Group>
 
                     <Button type='submit' variant='primary'>
-                        Update
-          </Button>
+                        GÜNCELLE
+                    </Button>
                 </Form>
-            </Col>
-            <Col md={9}>
-                <h2>My Posts</h2>
             </Col>
         </Row>
     )

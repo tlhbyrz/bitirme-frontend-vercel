@@ -271,7 +271,7 @@ const CreateTopicModal = (props) => {
                     }
                 </Form.Group>
                 <Form.Group>
-                    <Form.File onChange={(e) => uploadImage(e)} id="exampleFormControlFile1" label="Kontroller için resim yükleyiniz!" />
+                    <Form.File accept="image/*" onChange={(e) => uploadImage(e)} id="exampleFormControlFile1" label="Kontroller için resim yükleyiniz!" />
                     {image &&
                         <div className="modal-img-container">
                             <img className="send-post-img" src={imagePreview}></img>

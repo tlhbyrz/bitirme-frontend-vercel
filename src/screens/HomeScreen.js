@@ -11,11 +11,15 @@ import TopicList from "../components/topicList/topicList"
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTimeline } from "../store/actions/timelineActions"
-import { getAllTopics } from "../store/actions/topicActions"
+import { getAllTopics, setTopicCategory } from "../store/actions/topicActions"
+import { mainCategories } from "../constants/categories"
+import useQuery from "../customHook/GetQueryParams"
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
     let history = useHistory();
+    let query = useQuery();
+    
     const dispatch = useDispatch();
     const timelineReducer = useSelector((state) => state.timeline);
     const { timeline, error, loading } = timelineReducer;
@@ -28,26 +32,34 @@ const HomeScreen = () => {
 
     useEffect(() => {
         if (userInfo) {
-            dispatch(getAllTopics());
+            if(match.params.category){
+                if(mainCategories.includes(match.params.category)){
+                    dispatch(setTopicCategory({
+                        value: match.params.category,
+                        label: query.get("label") ? query.get("label") : match.params.category,
+                        type: "main"
+                    }))
+                }
+            }
+            dispatch(getAllTopics(query.get("topic")));
         }else{
-            history.push("/login");
+            if(query.get("topic")){
+                history.push(`/login?topic=${query.get("topic")}`);
+            }else{
+                history.push(`/login`);
+            }
         }
     }, []);
 
     return (
-        <Row className='justify-content-md-center mt-4'>
-            <Col sm={12} md={{ span: 9 }} lg={3}>
+        <Row className='justify-content-md-center justify-content-xl-start mt-4'>
+            <Col sm={12} md={{ span: 4 }} lg={3}>
                 <TopicList />
             </Col>
-            <Col xs={{ span: 12, order: "last" }} sm={{ span: 12, order: "last" }} md={{ span: 9 }} lg={{ span: 6 }}>
+            <Col xs={{ span: 12, order: "last" }} sm={{ span: 12, order: "last" }} md={{ span: 8 }} lg={{ span: 6 }}>
                 {
                     activeTopic && topics.length > 0 && <CreatePost />
                 }
-                
-
-                {/* {
-                    activeTopic && timeline && timeline.length !== 0 && !loading && <FilterPostBy />
-                } */}
                 
 
                 {
@@ -94,9 +106,9 @@ const HomeScreen = () => {
                                 </div>
                 }
             </Col>
-            <Col sm={{ span: 12 }} md={{ span: 9 }} lg={{ span: 3, order: "last" }}>
+            {/* <Col sm={{ span: 12 }} md={{ span: 9 }} lg={{ span: 3, order: "last" }}>
                 <div className="right-widget"></div>
-            </Col>
+            </Col> */}
         </Row>
     )
 }

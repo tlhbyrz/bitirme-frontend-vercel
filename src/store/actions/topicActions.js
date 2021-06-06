@@ -10,7 +10,7 @@ import cogoToast from 'cogo-toast';
 import { APP_URL } from "../../constants/data"
 
 
-export const getAllTopics = () => async (dispatch, getState) => {
+export const getAllTopics = (topicId) => async (dispatch, getState) => {
     try {
         dispatch({
             type: GET_ALL_TOPICS,
@@ -46,9 +46,21 @@ export const getAllTopics = () => async (dispatch, getState) => {
             payload: res.data,
         })
 
+        
+
         if(res.data.length > 0) {
-            dispatch(setActiveTopic(res.data[0]));
-            dispatch(getTimeline(res.data[0]._id));
+            if(topicId){
+                let filteredTopic = res.data.filter(item => item._id === topicId);
+                if(filteredTopic.length > 0){
+                    dispatch(setActiveTopic(filteredTopic[0]));
+                    dispatch(getTimeline(filteredTopic[0]._id));
+                }else{
+                    dispatch(getTopicById(topicId, res.data))
+                }
+            }else{
+                dispatch(setActiveTopic(res.data[0]));
+                dispatch(getTimeline(res.data[0]._id));
+            }
         }
         
 
@@ -59,7 +71,32 @@ export const getAllTopics = () => async (dispatch, getState) => {
             payload: error.message,
         })
 
-        cogoToast.error("Konuları listelemede problem yaşıyoruz. Lütfen daha sonra tekrar deneyin!", { position: 'top-center', heading: 'Konular' });
+        cogoToast.error("Konuları listelemede problem yaşıyoruz. Lütfen daha sonra tekrar deneyin!", { position: 'top-center',hideAfter: 6 });
+    }
+}
+
+
+export const getTopicById = (topicId, allPosts) => async (dispatch, getState) => {
+    try {
+        const token = getState().userLogin.userInfo.token;
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+        }
+
+        const res = await axios.get(APP_URL + `/api/post/topic/${topicId}`, config);
+        dispatch(setActiveTopic(res.data));
+        dispatch(getTimeline(res.data._id));
+
+    } catch (error) {
+        console.log("getTopicById", error.message);
+        cogoToast.error("Görüntülemek istediğiniz postu bulamadık. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
+
+        dispatch(setActiveTopic(allPosts[0]));
+        dispatch(getTimeline(allPosts[0]._id));
     }
 }
 
@@ -85,10 +122,10 @@ export const sendTopic = (title, text, category, image, handleClose) => async (d
 
         await axios.post(APP_URL + `/api/post/topic`, {title: title, desc: text, category: category  , image: image }, config)
         handleClose();
-        cogoToast.success("Yeni konu talebiniz başarıyla iletilmiştir!", { position: 'top-center', heading: 'Yeni İndirim' });
+        cogoToast.success("Yeni konu talebiniz başarıyla iletilmiştir!", { position: 'top-center' });
 
     } catch (error) {
-        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyin!", { position: 'top-center', heading: 'Yeni İndirim' });
+        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyin!", { position: 'top-center' });
     }
 }
 

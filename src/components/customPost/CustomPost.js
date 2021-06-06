@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { likePost, unlikePost, dislikePost, undislikePost, commentToPost, deletePostFromTimeline } from "../../store/actions/timelineActions"
 import fromDateToNow from "date-fns/formatDistanceToNowStrict"
+import { tr } from 'date-fns/locale'
 
 import HeartSvg from "../../assets/heart.svg"
 import ThumbupSvg from "../../assets/thumbs-up.svg"
@@ -145,13 +146,13 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                         <img src={postDetail.avatar ? postDetail.avatar : "https://www.gravatar.com/avatar/"} alt="" />
                         <div className="detail">
                             <div className="name">{postDetail.name}</div>
-                            <div className="job-title">Beginner Discount Tracer</div>
-                            <div className="date">{fromDateToNow(new Date(postDetail.date))} ago</div>
+                            <div className="job-title">Çırak Takipci</div>
+                            <div className="date">{fromDateToNow(new Date(postDetail.date), { locale: tr })} önce</div>
                         </div>
                     </div>
                 </Fragment>
-                <div className="more" ref={optionsRef} onClick={() => setShowOption(!showOption)}>
-                    <i class="fas fa-ellipsis-h"></i>
+                <div role="button" tabIndex="0" className="more" ref={optionsRef} onClick={() => setShowOption(!showOption)}>
+                    <i className="fas fa-ellipsis-h"></i>
                     <div className={showOption ? "post-options options-show" : "post-options"}>
                         {
                             userInfo._id === postDetail.user ?
@@ -190,7 +191,7 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                     postDetail.image &&
                     <>
                         <p>
-                            <img src={APP_URL + "/" + postDetail.image} onClick={openLightbox} />
+                            <img role="button" tabIndex="0" src={APP_URL + "/" + postDetail.image} onClick={openLightbox} />
                         </p>
                         {
                             light &&
@@ -204,27 +205,27 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                 <div className="likes">
                     <img src={HeartSvg} />
                     <img src={ThumbupSvg} />
-                    {postDetail.likes.length} Likes
+                    {postDetail.likes.length} Beğeni
 				</div>
                 <div className="likes">
-                    {postDetail.dislikes.length} Dislikes
+                    {postDetail.dislikes.length} Olumsuz
                 </div>
                 <div className="comments">
-                    {postDetail.comments.length} Comments
+                    {postDetail.comments.length} Yorum
                 </div>
             </div>
             <div className="post-actions">
-                <div onClick={like} className={!liked ? "post-action" : "post-action-active"}>
-                    <i class="far fa-thumbs-up"></i>
-                    <p>Like</p>
+                <div role="button" tabIndex="0" onClick={like} className={!liked ? "post-action" : "post-action-active"}>
+                    <i className="far fa-thumbs-up"></i>
+                    <p>Beğendim</p>
                 </div>
-                <div onClick={dislike} className={!disliked ? "post-action" : "post-action-active"}>
-                    <i class="far fa-thumbs-down"></i>
-                    <p>Dislike</p>
+                <div role="button" tabIndex="0" onClick={dislike} className={!disliked ? "post-action" : "post-action-active"}>
+                    <i className="far fa-thumbs-down"></i>
+                    <p>Beğenmedim</p>
                 </div>
-                <div className={!commented ? "post-action" : "post-action-active"} onClick={() => setShowComment(!showComment)}>
-                    <i class="far fa-comments"></i>
-                    <p> Comment</p>
+                <div role="button" tabIndex="0" className={!commented ? "post-action" : "post-action-active"} onClick={() => setShowComment(!showComment)}>
+                    <i className="far fa-comments"></i>
+                    <p>Yorum Yap</p>
                 </div>
                 {/* <div className="post-action">
                     <i class="fas fa-share-alt"></i>
@@ -237,15 +238,15 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                     <div className="post-comment-form">
                         <img src={postDetail.avatar ? postDetail.avatar : "https://www.gravatar.com/avatar/"} alt="" />
                         <div className="textarea">
-                            <textarea name="" placeholder="Write comment" id="" onChange={(e) => setComment(e.target.value)} value={comment}></textarea>
+                            <textarea name="" placeholder="Yorumunuzu yazın..." id="" onChange={(e) => setComment(e.target.value)} value={comment}></textarea>
                             <label>
                                 <input type="file" accept="image/*" />
-                                <i class="fas fa-camera"></i>
+                                <i className="fas fa-camera"></i>
                             </label>
                         </div>
                     </div>
                     <div className="align-right">
-                        <button className="send-comment-btn" onClick={sendComment}>Gönder</button>
+                        <button role="button" tabIndex="0" className="send-comment-btn" onClick={sendComment}>Gönder</button>
                     </div>
 
                     <FlipMove>

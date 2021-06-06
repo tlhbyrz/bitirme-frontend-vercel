@@ -6,8 +6,12 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { register } from '../store/actions/userActions'
+import useQuery from "../customHook/GetQueryParams"
+import cogoToast from 'cogo-toast'
+
 
 const RegisterScreen = ({ location, history }) => {
+    let query = useQuery();
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -25,16 +29,24 @@ const RegisterScreen = ({ location, history }) => {
 
     useEffect(() => {
         if (userInfo) {
-            history.push("/")
+            if(query.get("topic")){
+                history.push(`/home?topic=${query.get("topic")}`);
+            }else{
+                history.push("/home");
+            }
         }
     }, [history, userInfo, redirect])
 
     const submitHandler = (e) => {
         e.preventDefault()
         if (password !== confirmPassword) {
-            setMessage('Parolalar eşleşmiyor! Lütfen aynı parolayı giriniz!')
+            cogoToast.error("Parolalar eşleşmiyor! Lütfen aynı parolayı giriğinizden emin olun!", { position: 'top-center' });
         } else {
             setMessage(null)
+            if(!email || !password || !name){
+                cogoToast.error("isim, email veya parola kısmı boş bırakılamaz!", { position: 'top-center' });
+                return;
+            }
             dispatch(register(name, email, password))
         }
     }
@@ -101,7 +113,7 @@ const RegisterScreen = ({ location, history }) => {
             <Row className='py-3'>
                 <Col>
                     Zaten bir hesabınız var mı?{' '}
-                    <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+                    <Link to={query.get("topic") ? `/login?topic=${query.get("topic")}` : '/login'}>
                         Giriş Yapın
                     </Link>
                 </Col>

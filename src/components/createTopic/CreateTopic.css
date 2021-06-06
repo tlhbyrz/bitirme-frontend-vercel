@@ -33,6 +33,10 @@
     color: #aaaaaa;
 }
 
+.sendpost-textarea input:focus + .sendpost-textarea{
+    border: 1px solid #2684FF;
+}
+
 .modal-img-container{
     display: flex;
     flex-direction: column;

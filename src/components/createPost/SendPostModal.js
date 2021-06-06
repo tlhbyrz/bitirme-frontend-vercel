@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createRef } from 'react'
 import "./SendPostModal.css"
 import cogoToast from 'cogo-toast';
 import { Modal, Form, Button } from "react-bootstrap"
@@ -7,9 +7,12 @@ import { clearImageFromPost, sendPost, uploadImageToPost } from "../../store/act
 import Message from "../Message";
 import Loader from "../Loader";
 import { RESET_NEW_POST_ERROR } from '../../store/types';
+import { ImageCompressor, getImageSize } from "compressor-img";
 
 const SendPostModal = (props) => {
     const { show, handleClose } = props;
+    const textRef = createRef()
+
     const dispatch = useDispatch();
     const newPost = useSelector((state) => state.newPost);
     const { error, loading, success } = newPost;
@@ -23,7 +26,15 @@ const SendPostModal = (props) => {
         dispatch({
             type: RESET_NEW_POST_ERROR
         });
-    }, [])
+        setImagePreview(null);
+        setImage(null)
+        setText("")
+        setTextError(null)
+
+        if(show){
+            textRef.current.focus()
+        }
+    }, [show, handleClose])
 
     function sendNewPost() {
         if (!text.length > 0) {
@@ -47,6 +58,21 @@ const SendPostModal = (props) => {
             if(e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpg" || e.target.files[0].type === "image/jpeg"){
                 setImagePreview(URL.createObjectURL(e.target.files[0]));
                 setImage(e.target.files[0]);
+                /* let reader = new FileReader();
+                let file = e.target.files[0];
+                reader.onloadend = () => {
+                    let imageCompressor = new ImageCompressor({
+                      onSuccess: response => {
+                        console.log("result2",response);
+                      },
+                      scale: 70,
+                      quality: 70,
+                      holdCompress: false,
+                      originalImage: reader.result
+                    });
+                    imageCompressor.startCompress();
+                  };
+                  reader.readAsDataURL(file); */
             }else{
                 setImagePreview(null);
                 setImage(null);
@@ -72,7 +98,7 @@ const SendPostModal = (props) => {
                 <Form.Group controlId='text' >
                     <Form.Label>Mesajınız</Form.Label>
                     <div className="sendpost-textarea">
-                        <textarea name="post-content" placeholder="Mesajınızı buraya ekleyin..." id="" onChange={(e) => setText(e.target.value)} value={text}></textarea>
+                        <textarea ref={textRef} name="post-content" placeholder="Mesajınızı buraya ekleyin..." id="" onChange={(e) => setText(e.target.value)} value={text}></textarea>
                     </div>
                     {
                         textError &&
@@ -82,7 +108,7 @@ const SendPostModal = (props) => {
                     }
                 </Form.Group>
                 <Form.Group>
-                    <Form.File onChange={(e) => uploadImage(e)} id="exampleFormControlFile1" label="Posta resim eklemek için butona basın." />
+                    <Form.File accept="image/*" onChange={(e) => uploadImage(e)} id="exampleFormControlFile1" label="Posta resim eklemek için butona basın." />
                     {Image &&
                         <div className="modal-img-container">
                             <img className="send-post-img" src={imagePreview}></img>
