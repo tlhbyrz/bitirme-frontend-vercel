@@ -9,6 +9,8 @@ import HomeScreen from "./screens/HomeScreen"
 import ProfileScreen from "./screens/ProfileScreen"
 import PostDetailsScreen from "./screens/PostDetailsScreen"
 import NotFound from "./screens/NotFound"
+import ForgotPassword from "./screens/ForgotPassword"
+import NewPassword from "./screens/NewPassword"
 import SelectCategory from "./components/selectCategory/selectCategory"
 
 import "react-awesome-lightbox/build/style.css";
@@ -29,6 +31,8 @@ const App = () => {
               <Route path='/profile' component={ProfileScreen} exact />
               <Route path='/register' component={RegisterScreen} />
               <Route path='/login' component={LoginScreen} />
+              <Route path='/forgot-password' component={ForgotPassword} exact/>
+              <Route path='/new-password' component={NewPassword}/>
               <Route path='*' component={NotFound} />
             </Switch>
           </Container>

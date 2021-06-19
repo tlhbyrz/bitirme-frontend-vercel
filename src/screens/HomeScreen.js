@@ -11,7 +11,7 @@ import TopicList from "../components/topicList/topicList"
 
 import { useDispatch, useSelector } from "react-redux";
 import { getTimeline } from "../store/actions/timelineActions"
-import { getAllTopics, setTopicCategory } from "../store/actions/topicActions"
+import { getAllTopics, setTopicCategory, setActiveTopic } from "../store/actions/topicActions"
 import { mainCategories } from "../constants/categories"
 import useQuery from "../customHook/GetQueryParams"
 
@@ -50,6 +50,12 @@ const HomeScreen = ({ match }) => {
             }
         }
     }, []);
+
+    useEffect(() =>{
+        if(query.get("topic")){
+            dispatch(getTimeline(query.get("topic")));
+        }
+    }, [query.get("topic")])
 
     return (
         <Row className='justify-content-md-center justify-content-xl-start mt-4'>

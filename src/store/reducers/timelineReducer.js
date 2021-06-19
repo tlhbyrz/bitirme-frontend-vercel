@@ -47,22 +47,15 @@ export const timelineReducer = (state = initialState, action) => {
             }
         case LIKE_TIMELINE_POST:
         case UNLIKE_TIMELINE_POST:
-            return {
-                ...state,
-                timeline: state.timeline.map((post) =>
-                    post._id === action.payload.postId ? { ...post, likes: action.payload.data } : post
-                ),
-                loading: false,
-            }
         case DISLIKE_TIMELINE_POST:
         case UNDISLIKE_TIMELINE_POST:
             return {
                 ...state,
                 timeline: state.timeline.map((post) =>
-                    post._id === action.payload.postId ? { ...post, dislikes: action.payload.data } : post
+                    post._id === action.payload.postId ? { ...post, likes: action.payload.data.likes, dislikes: action.payload.data.dislikes } : post
                 ),
                 loading: false,
-            }    
+            }   
         case COMMENT_TIMELINE_POST:
             return {
                 ...state,

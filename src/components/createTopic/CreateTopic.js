@@ -34,10 +34,14 @@ const CreateTopicModal = (props) => {
     useEffect(() =>{
         setMainCategory(null)
         setSubCategory(null)
+        setImage(null)
         setImageError(null)
+        setImagePreview(null)
         setTextError(null)
         setCategoriesError(null);
         setTitleError(null)
+        setTitle("")
+        setText("")
     }, [show])
 
 
@@ -61,26 +65,14 @@ const CreateTopicModal = (props) => {
             setTextError(null)
         }
         if (!image) {
-            setImageError("Başlığı doğruluğunu destekleyecek bir ekran görüntüsü eklemelisin!");
+            setImageError("Başlığı doğruluğunu destekleyecek bir fotoğraf veya ekran görüntüsü eklemelisin!");
             return
         }else{
             setImageError(null)
         }
 
         if (text.length > 0 && title.length > 0) {
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`
-                },
-            }
-    
-            let fd = new FormData();
-            fd.append("file", image)
-    
             try {
-                const { data } = await axios.post(APP_URL + `/api/post/uploadImage`, fd, config);
-
                 let formatted = null;
 
                 if(mainCategory && !subCategory && !categoryItem){
@@ -111,7 +103,7 @@ const CreateTopicModal = (props) => {
                     }
                 }
 
-                dispatch(sendTopic(title, text, formatted ? formatted : categoryItem, data.image, handleClose));
+                dispatch(sendTopic(title, text, formatted ? formatted : categoryItem, image, handleClose));
 
             } catch (error) {
                 console.log(error.message);

@@ -63,13 +63,6 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
         const token = getState().userLogin.userInfo.token;
         const topicId = getState().allTopics.activeTopic;
 
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            },
-        }
-
         const imgConfig = {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -77,23 +70,19 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
             },
         }
 
-        let uploadedImg = null;
-        if(image){
-            let fd = new FormData();
-            fd.append("file", image)
-    
-            const { data } = await axios.post(APP_URL + `/api/post/uploadImage`, fd, imgConfig);
-            uploadedImg = data;
-        }
+        let fd = new FormData();
+        fd.append("file", image)
+        fd.append("text", text)
+        fd.append("topic_id", topicId._id)
 
-        const res = await axios.post(APP_URL + `/api/post/`, { text: text, image: uploadedImg ? uploadedImg.image : null, topic_id: topicId }, config)
+        const res = await axios.post(APP_URL + `/api/post/`, fd, imgConfig)
 
         dispatch({
             type: SEND_NEW_POST_SUCCESS,
             payload: res.data.posts
         })
 
-        cogoToast.success("Post gönderildi!", { position: 'top-center', heading: 'Post Gönder' });
+        cogoToast.success("Post gönderildi!", { position: 'top-center' });
         handleClose();
 
         setTimeout(() => {
@@ -109,7 +98,7 @@ export const sendPost = (text, image, handleClose, cogoToast) => async (dispatch
                 ? error.response.data.message
                 : error.message,
         })
-        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center', heading: 'Post Gönder' });
+        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
     }
 }
 

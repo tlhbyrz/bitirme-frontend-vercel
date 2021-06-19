@@ -2,6 +2,8 @@ import { USER_LOGIN_REQ, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, USER_LOGOUT } f
 import { USER_REGISTER_REQ, USER_REGISTER_SUCCESS, USER_REGISTER_FAILURE } from "../types"
 import { USER_UPDATE_REQ, USER_UPDATE_SUCCESS, USER_UPDATE_FAILURE } from "../types"
 import { GET_AUTH_USER_REQ, GET_AUTH_USER_REQ_SUCCESS, GET_AUTH_USER_REQ_FAIL } from "../types"
+import { FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from "../types"
+import { NEW_PASSWORD_SUCCESS, NEW_PASSWORD_FAILURE } from "../types"
 
 
 const initialState = {
@@ -20,7 +22,8 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: true,
-                success: false
+                success: false,
+                error: []
             }
         case USER_LOGIN_SUCCESS:
         case USER_REGISTER_SUCCESS:
@@ -38,9 +41,19 @@ export const userReducer = (state = initialState, action) => {
                 error: [],
                 success: true
             }
+        case FORGOT_PASSWORD_SUCCESS:
+        case NEW_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                success: true,
+                error: [],
+                loading: false
+            }    
         case USER_LOGIN_FAILURE:
         case USER_REGISTER_FAILURE:
         case USER_UPDATE_FAILURE:
+        case FORGOT_PASSWORD_FAILURE:
+        case NEW_PASSWORD_FAILURE:
             return {
                 ...state,
                 error: action.payload,

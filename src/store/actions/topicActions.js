@@ -93,7 +93,7 @@ export const getTopicById = (topicId, allPosts) => async (dispatch, getState) =>
 
     } catch (error) {
         console.log("getTopicById", error.message);
-        cogoToast.error("Görüntülemek istediğiniz postu bulamadık. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
+        cogoToast.error("Görüntülemek istediğiniz konuyu bulamadık. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
 
         dispatch(setActiveTopic(allPosts[0]));
         dispatch(getTimeline(allPosts[0]._id));
@@ -113,14 +113,20 @@ export const sendTopic = (title, text, category, image, handleClose) => async (d
     try {
         const token = getState().userLogin.userInfo.token;
 
-        const config = {
+        const imgConfig = {
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
-            },
+            }
         }
 
-        await axios.post(APP_URL + `/api/post/topic`, {title: title, desc: text, category: category  , image: image }, config)
+        let fd = new FormData();
+        fd.append("file", image)
+        fd.append("title", title)
+        fd.append("desc", text)
+        fd.append("category", JSON.stringify(category))
+
+        await axios.post(APP_URL + `/api/post/topic`, fd, imgConfig)
         handleClose();
         cogoToast.success("Yeni konu talebiniz başarıyla iletilmiştir!", { position: 'top-center' });
 

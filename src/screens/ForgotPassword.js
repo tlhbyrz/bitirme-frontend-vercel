@@ -5,19 +5,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { login } from '../store/actions/userActions'
+import { forgotPassword } from '../store/actions/userActions'
 import useQuery from "../customHook/GetQueryParams"
 import cogoToast from 'cogo-toast'
 
-const LoginScreen = ({ location, history }) => {
+const ForgotPassword = ({ history }) => {
     let query = useQuery();
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
 
     const dispatch = useDispatch()
 
     const userLogin = useSelector((state) => state.userLogin)
-    const { loading, error, userInfo } = userLogin
+    const { error, userInfo, success, loading } = userLogin
 
     useEffect(() => {
         if (userInfo) {
@@ -31,25 +30,32 @@ const LoginScreen = ({ location, history }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        if(!email || !password){
-            cogoToast.error("Email veya parola kısmı boş bırakılamaz!", { position: 'top-center' });
+        if(!email){
+            cogoToast.error("Email boş bırakılamaz!", { position: 'top-center' });
             return;
         }
-        dispatch(login(email, password))
+        dispatch(forgotPassword(email))
+        setEmail("")
     }
 
     return (
         <FormContainer>
-            <h1 className="mt-5">GİRİŞ YAP</h1>
+            <h1 className="mt-5">ŞİFREMİ SIFIRLA</h1>
             {
                 error && error.map(item => (
                     <Message variant='danger'>{item}</Message>
                 ))
             }
-            {loading && <Loader />}
-            <Form onSubmit={submitHandler}>
+            {
+                success && <Message variant='success'>{"Sifre sıfırlama maili başarıyla gönderilmiştir."}</Message>
+            }
+            {
+                success && <Message variant='info'>{"İşlemi tamamlamak için 1 saatiniz bulunmaktadır. Lütfen belirtilen sürede işleminizi tamamlayınız!"}</Message>
+            }
+            {loading && <Loader size="30px"/>}
+            <Form onSubmit={submitHandler} className="mt-3">
                 <Form.Group controlId='email'>
-                    <Form.Label>Email Adresiniz</Form.Label>
+                    <Form.Label>Lütfen mail adresinizi yazınız</Form.Label>
                     <Form.Control
                         type='email'
                         required={true}
@@ -60,34 +66,16 @@ const LoginScreen = ({ location, history }) => {
                     ></Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='password'>
-                    <Form.Label>Parola</Form.Label>
-                    <Form.Control
-                        type='password'
-                        maxLength="50"
-                        placeholder='Parolanızı buraya girin...'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-                <Row className='mb-1'>
-                    <Col className="align-right">
-                        <Link to={'/forgot-password'}>
-                            Şifremi Unuttum
-                        </Link>
-                    </Col>
-                </Row>
-
                 <Button type='submit' variant='primary'>
-                    GİRİŞ YAP
+                    GÖNDER
                 </Button>
             </Form>
 
             <Row className='py-3'>
                 <Col>
-                    Henüz hesabınız yok mu?{' '}
-                    <Link to={query.get("topic") ? `/register?topic=${query.get("topic")}` :  '/register'}>
-                        Hemen Kaydol
+                    Bilgilerini hatırliyor musun?{' '}
+                    <Link to={query.get("topic") ? `/login?topic=${query.get("topic")}` :  '/login'}>
+                        Giriş Yap
                     </Link>
                 </Col>
             </Row>
@@ -95,4 +83,4 @@ const LoginScreen = ({ location, history }) => {
     )
 }
 
-export default LoginScreen
+export default ForgotPassword

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef, useRef } from 'react'
 import "./CustomPost.css"
 import cogoToast from 'cogo-toast';
+import { Link } from "react-router-dom"
 import Lightbox from "react-awesome-lightbox";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -62,33 +63,21 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
     }
 
     function like() {
-        if (posts.find(item => item._id === postDetail._id)) {
-            const post = posts.filter(item => item._id === postDetail._id)[0];
-
-            if (!loading) {
-                if (post.likes.find(like => like.user === userInfo._id)) {
-                    dispatch(unlikePost(postDetail._id));
-                } else {
-                    if(!disliked){
-                        dispatch(likePost(postDetail._id));
-                    }
-                }
+        if (!loading) {
+            if (postDetail.likes.find(like => like.user === userInfo._id)) {
+                dispatch(unlikePost(postDetail._id));
+            } else {
+                dispatch(likePost(postDetail._id));
             }
         }
     }
 
     function dislike() {
-        if (posts.find(item => item._id === postDetail._id)) {
-            const post = posts.filter(item => item._id === postDetail._id)[0];
-
-            if (!loading) {
-                if (post.dislikes.find(dislike => dislike.user === userInfo._id)) {
-                    dispatch(undislikePost(postDetail._id));
-                } else {
-                    if(!liked){
-                        dispatch(dislikePost(postDetail._id));
-                    }
-                }
+        if (!loading) {
+            if (postDetail.dislikes.find(dislike => dislike.user === userInfo._id)) {
+                dispatch(undislikePost(postDetail._id));
+            } else {
+                dispatch(dislikePost(postDetail._id));
             }
         }
     }
@@ -191,11 +180,13 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                     postDetail.image &&
                     <>
                         <p>
-                            <img role="button" tabIndex="0" src={APP_URL + "/" + postDetail.image} onClick={openLightbox} />
+                            <Link onClick={openLightbox}>
+                                <img src={APP_URL + "/" + postDetail.image}  />
+                            </Link>
                         </p>
                         {
                             light &&
-                            <Lightbox image={APP_URL + "/" + postDetail.image} title="Image Title" onClose={openLightbox} />
+                            <Lightbox zoomStep={0.7} image={APP_URL + "/" + postDetail.image} title="Image Title" onClose={openLightbox} />
                         }
                     </>
                 }
@@ -215,18 +206,24 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                 </div>
             </div>
             <div className="post-actions">
-                <div role="button" tabIndex="0" onClick={like} className={!liked ? "post-action" : "post-action-active"}>
-                    <i className="far fa-thumbs-up"></i>
-                    <p>Beğendim</p>
-                </div>
-                <div role="button" tabIndex="0" onClick={dislike} className={!disliked ? "post-action" : "post-action-active"}>
-                    <i className="far fa-thumbs-down"></i>
-                    <p>Beğenmedim</p>
-                </div>
-                <div role="button" tabIndex="0" className={!commented ? "post-action" : "post-action-active"} onClick={() => setShowComment(!showComment)}>
-                    <i className="far fa-comments"></i>
-                    <p>Yorum Yap</p>
-                </div>
+                <Link onClick={like}>
+                    <div className={!liked ? "post-action" : "post-action-active"}>
+                        <i className="far fa-thumbs-up"></i>
+                        <p>Beğendim</p>
+                    </div>
+                </Link>
+                <Link onClick={dislike}>
+                    <div className={!disliked ? "post-action" : "post-action-active"}>
+                        <i className="far fa-thumbs-down"></i>
+                        <p>Beğenmedim</p>
+                    </div>
+                </Link>
+                <Link onClick={() => setShowComment(!showComment)}>
+                    <div className={!commented ? "post-action" : "post-action-active"} >
+                        <i className="far fa-comments"></i>
+                        <p>Yorum Yap</p>
+                    </div>
+                </Link>
                 {/* <div className="post-action">
                     <i class="fas fa-share-alt"></i>
                     <p>Share</p>
