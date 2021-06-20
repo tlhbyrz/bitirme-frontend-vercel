@@ -1,6 +1,6 @@
 
 export const mainCategories = [
-  "ayakkabı",
+  "ayakkabi",
   "bahce",
   "bebek",
   "pc",
@@ -16,7 +16,7 @@ export const mainCategories = [
 
 export const allCategories = [
   {
-    value: "ayakkabı",
+    value: "ayakkabi",
     label: "Ayakkabı",
     categories: [
       {

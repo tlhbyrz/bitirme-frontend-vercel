@@ -17,7 +17,7 @@ import {
 const initialState = {
     timeline: [],
     error: null,
-    loading: true,
+    loading: false,
 }
 
 export const timelineReducer = (state = initialState, action) => {

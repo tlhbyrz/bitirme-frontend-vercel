@@ -18,16 +18,19 @@ const TopicList = () => {
 
     return (
         <section className="left-widget">
-            <h5 className="topics-title">
-                {topicCategory ? "'" + topicCategory.label +  "'"  + " hakkındaki konular:" : "En Yeniler"}
-            </h5>
+            {
+                (!loading && topics.length === 0) ? null :
+                <h5 className="topics-title">
+                    {topicCategory ? "'" + topicCategory.label +  "'"  + " hakkındaki konular:" : "En Yeniler"}
+                </h5>
+            }
 
             <section className="topic-card-list">
             {
                 loading ? <Loader size="30px" /> : 
                 topics.map((topic) => (
-                    <Link to={`/home?topic=${topic._id}`} onClick={() => changeTopic(topic)}>
-                        <div className="topic-card" key={topic._id} >
+                    <Link to={`/home?topic=${topic._id}`} onClick={() => changeTopic(topic)} key={topic._id}>
+                        <div className="topic-card"  >
                             <p className="topic-card-text">
                                     { topic.title }
                             </p>

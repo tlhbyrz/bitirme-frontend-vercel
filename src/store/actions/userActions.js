@@ -69,8 +69,7 @@ export const updateUserInfo = (user) => async (dispatch, getState) => {
             payload: data,
         })
 
-        cogoToast.success("Your informations has been successfully updated!", { position: 'top-center', heading: 'Update Profile!' });
-
+        cogoToast.success("Bilgilerin başarıyla güncellendi!", { position: 'top-center' });
         localStorage.setItem('userInfo', JSON.stringify(data))
 
     } catch (error) {
@@ -92,8 +91,6 @@ export const updateUserInfo = (user) => async (dispatch, getState) => {
             type: USER_UPDATE_FAILURE,
             payload: errorMessage
         })
-
-        cogoToast.error("Some errors occured. Please try later!", { position: 'top-center', heading: 'Update Profile' });
     }
 }
 
@@ -139,8 +136,6 @@ export const login = (email, password) => async (dispatch) => {
             type: USER_LOGIN_FAILURE,
             payload: errorMessage
         })
-
-        cogoToast.error("Some errors occured. Please try later!", { position: 'top-center', heading: 'Login' });
     }
 }
 
@@ -182,8 +177,7 @@ export const register = (name, email, password) => async (dispatch) => {
             payload: data,
         })
 
-        cogoToast.success("Your account has been successfully created!", { position: 'top-center', heading: 'Register!' });
-
+        cogoToast.success("Hesabın başarıyla oluşturuldu!", { position: 'top-center' });
         localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (error) {
 
@@ -202,8 +196,6 @@ export const register = (name, email, password) => async (dispatch) => {
             type: USER_REGISTER_FAILURE,
             payload: errorMessage
         })
-
-        cogoToast.error("Some errors occured. Please try later!", { position: 'top-center', heading: 'Register' });
     }
 }
 

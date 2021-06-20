@@ -281,7 +281,7 @@ export const commentToPost = (postId, comment, cogoToast) => async (dispatch, ge
 
         const { data } = await axios.post(APP_URL + `/api/post/comment/${postId}`, { text: comment }, config)
 
-        cogoToast.success("Yorumun gönderildi!", { position: 'top-center', heading: 'Yorum yap!' });
+        cogoToast.success("Yorumun gönderildi!", { position: 'top-center' });
 
         dispatch({
             type: COMMENT_TIMELINE_POST,
@@ -295,7 +295,7 @@ export const commentToPost = (postId, comment, cogoToast) => async (dispatch, ge
                 ? error.response.data.message
                 : error.message,
         })
-        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center', heading: 'Yorum yap' });
+        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
     }
 }
 
@@ -319,7 +319,7 @@ export const deleteCommentFromPost = (postId, commentId) => async (dispatch, get
         })
 
     } catch (error) {
-        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center', heading: 'Yorum kaldır!' });
+        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
     }
 }
 
@@ -337,7 +337,7 @@ export const deletePostFromTimeline = (postId) => async (dispatch, getState) => 
         }
 
         await axios.delete(APP_URL + `/api/post/${topicId}/${postId}`, config)
-        cogoToast.success("Post başarıyla silindi!", { position: 'top-center', heading: 'Post SİL!' });
+        cogoToast.success("Post başarıyla silindi!", { position: 'top-center' });
 
         dispatch({
             type: DELETE_TIMELINE_POST,
@@ -345,6 +345,6 @@ export const deletePostFromTimeline = (postId) => async (dispatch, getState) => 
         })
 
     } catch (error) {
-        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center', heading: 'Post SİL' });
+        cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyiniz!", { position: 'top-center' });
     }
 }
