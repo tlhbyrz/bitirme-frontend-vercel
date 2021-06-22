@@ -181,12 +181,12 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                     <>
                         <p>
                             <Link onClick={openLightbox}>
-                                <img src={APP_URL + "/" + postDetail.image}  />
+                                <img src={postDetail.image}  />
                             </Link>
                         </p>
                         {
                             light &&
-                            <Lightbox zoomStep={0.7} image={APP_URL + "/" + postDetail.image} title="Image Title" onClose={openLightbox} />
+                            <Lightbox zoomStep={0.7} image={postDetail.image} title="Önizleme" onClose={openLightbox} />
                         }
                     </>
                 }
