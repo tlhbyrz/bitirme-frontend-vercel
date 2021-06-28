@@ -61,9 +61,9 @@ export const updateUserInfo = (user) => async (dispatch, getState) => {
         fd.append("file", user.avatar)
         fd.append("name", user.name)
         fd.append("email", user.email)
-        fd.append("pasword", user.pasword)
+        fd.append("password", user.password)
 
-        const { data } = await axios.post('/api/auth/profile', fd, config)
+        const { data } = await axios.post(APP_URL + '/api/auth/profile', fd, config)
         dispatch({
             type: USER_UPDATE_SUCCESS,
             payload: data,
