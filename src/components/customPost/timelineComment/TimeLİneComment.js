@@ -49,28 +49,29 @@ const TimeLİneComment = forwardRef(({ comment, postID }, ref) => {
             <img src={comment.avatar ? comment.avatar : "https://www.gravatar.com/avatar/"} />
             <div className="timeline-post-comment-details">
                 <p>{comment.name} </p>
-                <p className="timeline-comment-date">{fromDateToNow(new Date(comment.date))} ago</p>
+                <p className="timeline-comment-date">{fromDateToNow(new Date(comment.date))} önce</p>
                 <span>{comment.text}</span>
             </div>
             <div className="more" ref={optionsRef} onClick={() => setShowOption(!showOption)}>
                 <i className="fas fa-ellipsis-h"></i>
                 <div className={showOption ? "post-options options-show" : "post-options"}>
-                    <p className="post-option">Report</p>
-                    <p className="post-option" onClick={openDeletePopup}>Delete</p>
+                    <p className="post-option">Bildir</p>
+                    <p className="post-option" onClick={openDeletePopup}>Sil</p>
                 </div>
 
                 <Modal show={showDeletePopup} onHide={closeDeletePopup}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Delete Post!</Modal.Title>
+                        <Modal.Title>Yorumu Silmek Üzeresiniz!</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you're about to permenantly delete comment. Are you sure!</Modal.Body>
+                    <Modal.Body>Onaylarsanız yorumunuz kalıcı olarak kaldırılacakdır. 
+                            Lütfen silmek istediğinizden emin olunuz!</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={closeDeletePopup}>
-                            Close
+                            Kapat
                             </Button>
                         <Button variant="danger" onClick={deleteComment}>
-                            Delete
-                            </Button>
+                            Sil
+                        </Button>
                     </Modal.Footer>
                 </Modal>
             </div>
