@@ -12,6 +12,7 @@ import { ImageCompressor, getImageSize } from "compressor-img";
 const SendPostModal = (props) => {
     const { show, handleClose } = props;
     const textRef = createRef()
+    const file = createRef()
 
     const dispatch = useDispatch();
     const newPost = useSelector((state) => state.newPost);
@@ -50,29 +51,14 @@ const SendPostModal = (props) => {
 
     function uploadImage(e) {
         if(e.target.files.length > 0){
-            if (e.target.files[0].size > 1500000) {
-                cogoToast.error("Dosya büyüklüğü 1.5MB'dan büyük olamaz!", { position: 'top-center', heading: 'Boyut Hatası!' });
+            if (e.target.files[0].size > 3000000) {
+                cogoToast.error("Dosya büyüklüğü 3MB'dan büyük olamaz!", { position: 'top-center' });
                 return;
             }
     
             if(e.target.files[0].type === "image/png" || e.target.files[0].type === "image/jpg" || e.target.files[0].type === "image/jpeg"){
                 setImagePreview(URL.createObjectURL(e.target.files[0]));
                 setImage(e.target.files[0]);
-                /* let reader = new FileReader();
-                let file = e.target.files[0];
-                reader.onloadend = () => {
-                    let imageCompressor = new ImageCompressor({
-                      onSuccess: response => {
-                        console.log("result2",response);
-                      },
-                      scale: 70,
-                      quality: 70,
-                      holdCompress: false,
-                      originalImage: reader.result
-                    });
-                    imageCompressor.startCompress();
-                  };
-                  reader.readAsDataURL(file); */
             }else{
                 setImagePreview(null);
                 setImage(null);
@@ -80,6 +66,10 @@ const SendPostModal = (props) => {
                 return;
             }
         }
+    }
+
+    function clickToFile(){
+        file.current.click()
     }
 
     function deleteImage() {
@@ -94,7 +84,7 @@ const SendPostModal = (props) => {
             <Modal.Body>
                 {success && <Message variant='success'>{"Your post has been successfully created!"}</Message>}
                 {error && <Message variant='danger'>{error}</Message>}
-                {loading && <Loader />}
+                {loading && <Loader size="30px"/>}
                 <Form.Group controlId='text' >
                     <Form.Label>Mesajınız</Form.Label>
                     <div className="sendpost-textarea">
@@ -108,7 +98,11 @@ const SendPostModal = (props) => {
                     }
                 </Form.Group>
                 <Form.Group>
-                    <Form.File accept="image/*" onChange={(e) => uploadImage(e)} id="exampleFormControlFile1" label="Posta resim eklemek için butona basın." />
+                    <Form.Label>Fotoğraf eklemek için butona basınız</Form.Label>
+                    <input ref={file} type="file" accept="image/*" onChange={(e) => uploadImage(e)}  id="add-gravatar-btn"/>
+                    <div>
+                        <button onClick={clickToFile} className="img-uploader-btn">Ekle</button>
+                    </div>
                     {Image &&
                         <div className="modal-img-container">
                             <img className="send-post-img" src={imagePreview}></img>

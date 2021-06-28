@@ -18,6 +18,7 @@ export const getAllTopics = (topicId) => async (dispatch, getState) => {
 
         const token = getState().userLogin.userInfo.token;
         const topicCategory = getState().allTopics.topicCategory;
+        const activeTopic = getState().allTopics.activeTopic;
 
         const config = {
             headers: {
@@ -33,7 +34,11 @@ export const getAllTopics = (topicId) => async (dispatch, getState) => {
             }else if(topicCategory.type === "parent"){
                 res = await axios.get(APP_URL + `/api/post/topic/parentcategory/${topicCategory.value}`, config)
             }else if(topicCategory.type === "item"){
-                res = await axios.get(APP_URL + `/api/post/topic/category/${topicCategory.value}`, config)
+                const params = {
+                    category: topicCategory.value,
+                    parent: topicCategory.parent.value
+                }
+                res = await axios.post(APP_URL + `/api/post/topic/category/category-by-parent`, params, config)
             }else{
                 res = await axios.get(APP_URL + `/api/post/topic/category/${topicCategory.value}`, config)
             }
@@ -111,6 +116,7 @@ export const setActiveTopic = (topic) => async (dispatch) => {
 
 export const sendTopic = (title, text, category, image, handleClose) => async (dispatch, getState) => {
     try {
+        cogoToast.loading('İndirim oluşturuluyor. Lütfen bekleyin!', { position: 'top-center', hideAfter: 2 });
         const token = getState().userLogin.userInfo.token;
 
         const imgConfig = {
@@ -129,6 +135,7 @@ export const sendTopic = (title, text, category, image, handleClose) => async (d
         await axios.post(APP_URL + `/api/post/topic`, fd, imgConfig)
         handleClose();
         cogoToast.success("Yeni konu talebiniz başarıyla iletilmiştir!", { position: 'top-center' });
+          
 
     } catch (error) {
         cogoToast.error("Hata oluştu. Lütfen daha sonra tekrar deneyin!", { position: 'top-center' });

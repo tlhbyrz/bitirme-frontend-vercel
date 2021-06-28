@@ -135,7 +135,9 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                         <img src={postDetail.avatar ? postDetail.avatar : "https://www.gravatar.com/avatar/"} alt="" />
                         <div className="detail">
                             <div className="name">{postDetail.name}</div>
-                            <div className="job-title">Çırak Takipci</div>
+                            <div className="job-title">
+                                {userInfo.title ? userInfo.title === "beginner" ?  "Çırak Takipçi" : "Usta Takipçi" : "Çırak Takipçi"}
+                            </div>
                             <div className="date">{fromDateToNow(new Date(postDetail.date), { locale: tr })} önce</div>
                         </div>
                     </div>
@@ -180,7 +182,7 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                     postDetail.image &&
                     <>
                         <p>
-                            <Link onClick={openLightbox}>
+                            <Link to="#" onClick={openLightbox}>
                                 <img src={postDetail.image}  />
                             </Link>
                         </p>
@@ -206,19 +208,19 @@ const CustomPost = forwardRef(({ posts, postDetail, loading }, ref) => {
                 </div>
             </div>
             <div className="post-actions">
-                <Link onClick={like}>
+                <Link to="#" onClick={like}>
                     <div className={!liked ? "post-action" : "post-action-active"}>
                         <i className="far fa-thumbs-up"></i>
                         <p>Beğendim</p>
                     </div>
                 </Link>
-                <Link onClick={dislike}>
+                <Link to="#" onClick={dislike}>
                     <div className={!disliked ? "post-action" : "post-action-active"}>
                         <i className="far fa-thumbs-down"></i>
                         <p>Beğenmedim</p>
                     </div>
                 </Link>
-                <Link onClick={() => setShowComment(!showComment)}>
+                <Link to="#" onClick={() => setShowComment(!showComment)}>
                     <div className={!commented ? "post-action" : "post-action-active"} >
                         <i className="far fa-comments"></i>
                         <p>Yorum Yap</p>

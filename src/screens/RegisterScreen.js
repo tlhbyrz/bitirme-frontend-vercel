@@ -60,7 +60,7 @@ const RegisterScreen = ({ location, history }) => {
                     <Message variant='danger'>{item}</Message>
                 ))
             }
-            {loading && <Loader />}
+            {loading && <Loader size="30px"/>}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='name'>
                     <Form.Label>Adınız</Form.Label>

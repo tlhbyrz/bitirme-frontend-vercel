@@ -46,7 +46,7 @@ const LoginScreen = ({ location, history }) => {
                     <Message variant='danger'>{item}</Message>
                 ))
             }
-            {loading && <Loader />}
+            {loading && <Loader size="30px"/>}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='email'>
                     <Form.Label>Email Adresiniz</Form.Label>

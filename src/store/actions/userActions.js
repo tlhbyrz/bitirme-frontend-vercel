@@ -49,7 +49,6 @@ export const updateUserInfo = (user) => async (dispatch, getState) => {
         })
 
         const token = getState().userLogin.userInfo.token;
-
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -57,21 +56,20 @@ export const updateUserInfo = (user) => async (dispatch, getState) => {
             },
         }
 
-        const { data } = await axios.put('/api/auth/profile', user, config)
+        let fd = new FormData();
+        fd.append("id", user.id)
+        fd.append("file", user.avatar)
+        fd.append("name", user.name)
+        fd.append("email", user.email)
+        fd.append("pasword", user.pasword)
 
+        const { data } = await axios.put('/api/auth/profile', fd, config)
         dispatch({
             type: USER_UPDATE_SUCCESS,
             payload: data,
         })
 
-        dispatch({
-            type: GET_AUTH_USER_REQ_SUCCESS,
-            payload: data,
-        })
-
-        cogoToast.success("Bilgilerin başarıyla güncellendi!", { position: 'top-center' });
         localStorage.setItem('userInfo', JSON.stringify(data))
-
     } catch (error) {
         console.log(error.message)
         let errorMessage = [];

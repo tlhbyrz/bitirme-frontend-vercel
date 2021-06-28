@@ -69,11 +69,11 @@ const HomeScreen = ({ match }) => {
                 
 
                 {
-                    activeTopic && topics.length > 0 && <h2 className="active-topic-header">'{activeTopic.title}' konusu hakkında atılan postlar:</h2>
+                    activeTopic && topics.length > 0 && <h2 className="active-topic-header">'{activeTopic.title}' hakkında atılan postlar:</h2>
                 }
 
                 {
-                    activeTopic === null || !topics.length > 0  ? 
+                    (activeTopic === null || !topics.length > 0)  ? 
                         <Fragment >
                             <Message variant='info'>
                                 { 
@@ -82,7 +82,7 @@ const HomeScreen = ({ match }) => {
                                 }
                             </Message>
                             <Message variant='info'>
-                                Yeni bir konu oluşturmak için lütfen menüdeki 'Konu Oluştur' butonuna basınız!
+                                Yeni bir indirim eklemek için lütfen menüdeki 'İndirim Ekle' butonuna basınız!
                             </Message>
                         </Fragment>
                     
@@ -98,7 +98,7 @@ const HomeScreen = ({ match }) => {
                 {
                     !userInfo ? null
                         :
-                        loading ? <Loader /> :
+                        (loading || allTopics.loading) ? <Loader size="30px"/> :
                             error ? <Message variant='danger'>{error}</Message> :
                                 topics.length > 0 &&
                                 <div className="timeline">

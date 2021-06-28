@@ -28,7 +28,6 @@ export const getTimeline = (topicId) => async (dispatch, getState) => {
         })
 
         const token = getState().userLogin.userInfo.token;
-
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +36,6 @@ export const getTimeline = (topicId) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(APP_URL + `/api/post/topic/${topicId}`, config)
-
         dispatch({
             type: GET_TIMELINE_SUCCESS,
             payload: data.posts,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createRef } from 'react'
 import "./CreateTopic.css"
 import cogoToast from 'cogo-toast';
 import axios from "axios";
@@ -8,11 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {  sendTopic  } from "../../store/actions/topicActions"
 import {  options, allCategories  } from "../../constants/categories"
 import { APP_URL } from "../../constants/data"
+import Loader from '../Loader';
 
 
 const CreateTopicModal = (props) => {
+    const file = createRef()
     const { show, handleClose } = props;
     const dispatch = useDispatch();
+    
+    const allTopics = useSelector((state) => state.allTopics);
+    const { loading } = allTopics;
 
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin;
@@ -122,8 +127,8 @@ const CreateTopicModal = (props) => {
 
     function uploadImage(e) {
         if(e.target.files.length > 0){
-            if (e.target.files[0].size > 1500000) {
-                cogoToast.error("Dosya büyüklüğü 1.5MB'dan büyük olamaz!", { position: 'top-center', heading: 'Boyut Hatası!' });
+            if (e.target.files[0].size > 3000000) {
+                cogoToast.error("Dosya büyüklüğü 3MB'dan büyük olamaz!", { position: 'top-center', heading: 'Boyut Hatası!' });
                 return;
             }
     
@@ -137,6 +142,10 @@ const CreateTopicModal = (props) => {
                 return;
             }
         }
+    }
+
+    function clickToFile(){
+        file.current.click()
     }
 
     function deleteImage() {
@@ -161,25 +170,26 @@ const CreateTopicModal = (props) => {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Yeni Konu Oluştur</Modal.Title>
+                <Modal.Title>Yeni İndirim Ekle</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Alert variant="info">
-                <Alert.Heading>Önemli</Alert.Heading>
-                <p>
-                    Yeni bir konu oluştururken indirimin devam ettiğinden emin olmalısın.
-                    Kontroller sonrası güncel olmayan konular yayınlanmayacaktır!
-                </p>
-                <hr />
-                <p className="mb-0">
-                    Kontrollere yardımcı olmak için lütfen resim yükleyiniz!
-                </p>
-            </Alert>
+                <Alert variant="info">
+                    <Alert.Heading>Önemli</Alert.Heading>
+                    <p>
+                        Yeni bir indirim eklerken kampanyanın devam ettiğinden emin olmalısın.
+                        Kontroller sonrası güncel olmayan kampanyalar yayınlanmayacaktır!
+                    </p>
+                    <hr />
+                    <p className="mb-0">
+                        İndirimi kanıtlayacak bir ekran görüntüsü veya fotoğraf eklemeniz gerekmektedir!
+                    </p>
+                </Alert>
 
+                {loading && <Loader size="30px"/>}
                 <Form.Group controlId='text' >
-                    <Form.Label>Konu Başlığı</Form.Label>
+                    <Form.Label>İndirim Başlığı</Form.Label>
                     <div className="sendpost-textarea">
-                        <input name="post-content" placeholder="Konuyu buraya yaz..." id="topic-title" 
+                        <input name="post-content" placeholder="Başlığı buraya yaz..." id="topic-title" 
                         onChange={(e) => setTitle(e.target.value)} value={title}></input>
                     </div>
                     {
@@ -251,7 +261,7 @@ const CreateTopicModal = (props) => {
                     <Form.Label>Açıklama metni</Form.Label>
                     <div className="sendpost-textarea">
                         <textarea name="post-content" 
-                            placeholder="Bu metin yayınlanmayacaktır. İnidirimlerin kontrolü için gereklidir..." id="topic-desc" 
+                            placeholder="Bu metin sabit post olarak yayınlanacaktır. Lütfen kampanya hakkında detayları buraya yazın!" id="topic-desc" 
                             onChange={(e) => setText(e.target.value)} value={text}>
                         </textarea>
                     </div>
@@ -263,7 +273,11 @@ const CreateTopicModal = (props) => {
                     }
                 </Form.Group>
                 <Form.Group>
-                    <Form.File accept="image/*" onChange={(e) => uploadImage(e)} id="exampleFormControlFile1" label="Kontroller için resim yükleyiniz!" />
+                    <Form.Label>Fotoğraf veya ekran görüntüsü eklemek için butona basınız</Form.Label>
+                    <input ref={file} type="file" accept="image/*" onChange={(e) => uploadImage(e)}  id="add-gravatar-btn"/>
+                    <div>
+                        <button onClick={clickToFile} className="img-uploader-btn">Ekle</button>
+                    </div>
                     {image &&
                         <div className="modal-img-container">
                             <img className="send-post-img" src={imagePreview}></img>

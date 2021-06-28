@@ -45,11 +45,14 @@ const Header = () => {
                                         <LinkContainer to='/profile'>
                                             <NavDropdown.Item><i className='fas fa-user'></i> Profil</NavDropdown.Item>
                                         </LinkContainer>
+                                        <LinkContainer to='/settings'>
+                                            <NavDropdown.Item><i className="fas fa-cog"></i> Ayarlar</NavDropdown.Item>
+                                        </LinkContainer>
                                         <NavDropdown.Item onClick={logoutHandler}>
                                             <i className='fas fa-sign-out-alt'></i> Çıkış
                                         </NavDropdown.Item>
                                     </NavDropdown>
-                                    <Button variant='info' size="sm" onClick={handleShow}>Konu Oluştur</Button>
+                                    <Button variant='info' size="sm" onClick={handleShow}>İndirim Ekle</Button>
                                 </Fragment>
                             ) : location !== "login" ? 
                             <LinkContainer to='/login'>

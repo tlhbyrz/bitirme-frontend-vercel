@@ -75,19 +75,39 @@ h2 {
   padding-top: 100px;
 }
 
-/* 
-.left-widget,
-.right-widget{
-  position: fixed;
+#add-gravatar-btn{
+  display: none;
 }
 
-.left-widget{
-  width: 100%;
+.img-uploader-btn{
+  border-radius: 8px;
+  background: #EFF6FF;
+  padding: 8px 25px;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  font-size: 16px;
 }
 
-@media screen and (max-width: 992px){
-  .left-widget,
-  .right-widget{
-    position: relative;
-  }
-} */
+.show-image-prev{
+  display: flex;
+  flex-direction: column;
+}
+
+.show-image-prev button{
+  width: 120px;
+  padding: 6px 15px;
+  margin-top: 15px;
+  background: rgb(255, 123, 123);
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.img-preview{
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  margin-top: 25px;
+  object-fit: cover;
+}

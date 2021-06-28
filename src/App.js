@@ -7,6 +7,7 @@ import LoginScreen from "./screens/LoginScreen"
 import RegisterScreen from "./screens/RegisterScreen"
 import HomeScreen from "./screens/HomeScreen"
 import ProfileScreen from "./screens/ProfileScreen"
+import Settings from "./screens/Settings"
 import PostDetailsScreen from "./screens/PostDetailsScreen"
 import NotFound from "./screens/NotFound"
 import ForgotPassword from "./screens/ForgotPassword"
@@ -28,6 +29,7 @@ const App = () => {
               <Route path='/home' component={HomeScreen} exact />
               <Route path='/home/:category' component={HomeScreen} />
               <Route path='/post/:id' component={PostDetailsScreen} />
+              <Route path='/settings' component={Settings} exact />
               <Route path='/profile' component={ProfileScreen} exact />
               <Route path='/register' component={RegisterScreen} />
               <Route path='/login' component={LoginScreen} />

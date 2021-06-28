@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react'
+import React, {useState, Fragment, useEffect} from 'react'
 import "./selectCategory.css"
 import { useDispatch, useSelector } from "react-redux"
 import {  useHistory  } from 'react-router-dom'
@@ -22,6 +22,10 @@ const SelectCategory = () => {
     const [mainSelected, setMainSelected] = useState(true);
     const [mainMenu, setMainMenu] = useState(null);
     const [showAllCategory, setShowAllCategory] = useState(false);
+
+    useEffect(() => {
+        setMainSelected(true)
+    }, [openSidebar])
 
     function changeMenu(item){
         setMainMenu(item);
@@ -74,7 +78,7 @@ const SelectCategory = () => {
                     value: "kitap",
                     label: "Kitap",
                     type: "main"
-                })} className="category-list-btn">Kitap</button>
+                })} className="category-list-btn" id="book-link">Kitap</button>
                 <button onClick={() => selectTopLevelCategory({
                     value: "pc",
                     label: "Bilgisayar",
@@ -84,11 +88,15 @@ const SelectCategory = () => {
                     value: "ev-ve-yasam",
                     label: "Ev ve Yaşam",
                     type: "main"
-                })} className="category-list-btn">Ev ve Yaşam</button>
-                <button onClick={() => console.log("clicked")} className="category-list-btn">Kişisel Bakım ve Kozmetik</button>
+                })} className="category-list-btn" id="personal-care-link">Ev ve Yaşam</button>
+                <button onClick={() => selectTopLevelCategory({
+                    value: "telefon",
+                    label: "Telefon",
+                    type: "main"
+                })} className="category-list-btn">Telefon</button>
             </div>
             <button onClick={() => setOpen(true)} className="all-category-btn"><i className="fas fa-bars"></i> Tümü</button>
-            <div className={`category-sidebar ${openSidebar && "show-category-sidebar"}`}>
+            <div className={`category-sidebar ${openSidebar && "show-category-sidebar"}`} > 
                 <div className="category-sidebar-top">
                     <h4>
                         <i className="fas fa-user-circle">
@@ -148,7 +156,7 @@ const SelectCategory = () => {
                     </div>
                 </div>
             </div>
-            <div className={`select-category-bg ${openSidebar && "show-category-bg"}`} />
+            <div className={`select-category-bg ${openSidebar && "show-category-bg"}`} onClick={() => setOpen(false)} />
         </div>
     )
 }

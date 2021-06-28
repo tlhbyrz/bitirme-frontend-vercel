@@ -1,0 +1,86 @@
+
+
+
+.topic-list-createdby-me{
+    width: 100%;
+    max-width: 450px;
+    margin-top: 10px;
+}
+
+.my-topic-wrapper{
+    text-decoration: none;
+    width: 100%;
+    max-width: 450px;
+}
+
+.topic-createdby-me{
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    background: white;
+}
+
+.topic-createdby-me h5{
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    text-transform: none;
+}
+
+.topic-createdby-me .my-topic-category{
+    margin: 0 auto;
+    font-weight: normal;
+    font-size: 11px;
+    padding: 4px 20px;
+    border-radius: 4px;
+    background: #A78BFA;
+    color: white;
+    text-transform: none;
+}
+
+.topic-createdby-me .my-topic-desc{
+    text-align: center;
+    font-weight: normal;
+    color: #11111e;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-transform: none;
+}
+
+.topic-createdby-me .my-topic-date{
+    text-align: center;
+    margin-top: 8px;
+}
+
+.topic-createdby-me img{
+    width: 100%;
+    border-radius: 6px;
+    max-height: 250px;
+    object-fit: cover;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.topic-createdby-me .my-topic-btn{
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 6px;
+    padding: 8px 0;
+    cursor: pointer;
+    background: #e1ebf8;
+    outline: none;
+    border: none;
+    margin-top: 8px;
+}
+
+.topic-createdby-me .my-topic-btn:hover{
+    background: #d5e4f8;
+}

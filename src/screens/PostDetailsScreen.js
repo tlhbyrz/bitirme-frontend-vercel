@@ -23,7 +23,7 @@ const PostDetailsScreen = ({ match }) => {
             <Col sm={12} md={3}>Sol widget</Col>
             <Col xs={{ span: 12, order: "last" }} sm={{ span: 12, order: "last" }} md={{ span: 6 }}>
                 {
-                    loading ? <Loader /> :
+                    loading ? <Loader size="30px"/> :
                         error ? <Message variant='danger'>{error}</Message> :
                             <PostDetailsComponent postDetail={post} />
                 }

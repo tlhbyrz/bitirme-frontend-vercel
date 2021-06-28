@@ -88,12 +88,10 @@
     border-radius: 4px;
     margin: 6px 0;
     padding: 12px 0;
-    transition: all ease-in 0.2s;
 }
 
 .post-option:hover{
-    background: #0066996b;
-    color: white;
+    background: #EFF6FF;
     cursor: pointer;
 }
 
@@ -320,4 +318,58 @@
     font-weight: bold;
     font-size: 12px;
     cursor: pointer;
+}
+
+@media screen and (max-width: 550px){
+    .custom-post{
+        padding: 13px 16px 5px;
+        margin-bottom: 20px;
+    }
+
+    .post-content{
+        padding: 20px 0 5px 0;
+    }
+
+    .post-actions{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding-bottom: 0px;
+        align-items: center;
+    }
+    
+    .post-action,
+    .post-action-active{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 10px 30px;
+        border-radius: 6px;
+    }
+
+    .post-action:hover,
+    .post-action-active:hover{
+        background: #EFF6FF;
+    }
+    
+    .post-action p,
+    .post-action-active p{
+        display: none;
+    }
+    
+    .post-action i,
+    .post-action-active i {
+        color: rgb(88, 88, 88);
+    }  
+
+    .post-alt-detail{
+        padding-bottom: 8px;
+        margin-bottom: 5px;
+    }
+
+    .send-comment-btn{
+        margin-bottom: 8px;
+    }
 }

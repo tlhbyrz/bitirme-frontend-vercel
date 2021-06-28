@@ -7,6 +7,7 @@ import { timelineReducer } from "./reducers/timelineReducer";
 import { postReducer } from "./reducers/postReducer";
 import { sendPostReducer } from "./reducers/sendPostReducer";
 import { topicReducer } from "./reducers/topicReducer";
+import { profilePageReducer } from "./reducers/profileReducer";
 
 const reducer = combineReducers({
     userLogin: userReducer,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
     timeline: timelineReducer,
     postDetails: postReducer,
     newPost: sendPostReducer,
-    allTopics: topicReducer
+    allTopics: topicReducer,
+    profilePage: profilePageReducer
 })
 
 const userInfosFromStorage = localStorage.getItem('userInfo')
@@ -27,7 +29,6 @@ const initialState = {
 }
 
 const middleware = [thunk]
-
 const store = createStore(
     reducer,
     initialState,
