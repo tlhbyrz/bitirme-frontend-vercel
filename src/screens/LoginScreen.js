@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { login } from '../store/actions/userActions'
+import { login, googleLogin } from '../store/actions/userActions'
 import useQuery from "../customHook/GetQueryParams"
 import cogoToast from 'cogo-toast'
+import { GoogleLogin } from 'react-google-login';
 
 const LoginScreen = ({ location, history }) => {
     let query = useQuery();
@@ -35,7 +36,14 @@ const LoginScreen = ({ location, history }) => {
             cogoToast.error("Email veya parola kısmı boş bırakılamaz!", { position: 'top-center' });
             return;
         }
-        dispatch(login(email, password))
+        const ORIGIN = "app"
+        dispatch(login(email, password, ORIGIN))
+    }
+
+    const responseGoogle = (response) => {
+        const ORIGIN = "google"
+        const { profileObj } = response
+        dispatch(googleLogin(profileObj.email, profileObj.name, profileObj.imageUrl, ORIGIN))
     }
 
     return (
@@ -43,7 +51,7 @@ const LoginScreen = ({ location, history }) => {
             <h1 className="mt-5">GİRİŞ YAP</h1>
             {
                 error && error.map(item => (
-                    <Message variant='danger'>{item}</Message>
+                    <Message variant='danger' key={item}>{item}</Message>
                 ))
             }
             {loading && <Loader size="30px"/>}
@@ -81,6 +89,19 @@ const LoginScreen = ({ location, history }) => {
                 <Button type='submit' variant='primary'>
                     GİRİŞ YAP
                 </Button>
+
+                <div className="py-3">
+                    <GoogleLogin
+                        clientId="1063455069693-koqals26noom2eot8eu59g96hr38qee3.apps.googleusercontent.com"
+                        /* render={renderProps => (
+                            <Button variant='info' onClick={renderProps.onClick} disabled={renderProps.disabled}>GOOGLE İLE GİRİŞ YAP</Button>
+                        )}  */                 
+                        buttonText="Google ile Giriş Yap"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
+                </div>
             </Form>
 
             <Row className='py-3'>

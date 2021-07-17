@@ -93,7 +93,52 @@ export const updateUserInfo = (user) => async (dispatch, getState) => {
 }
 
 
-export const login = (email, password) => async (dispatch) => {
+export const googleLogin = (email, name, avatar, origin) => async (dispatch) => {
+    try {
+        dispatch({
+            type: USER_LOGIN_REQ,
+        })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }
+
+        const { data } = await axios.post(
+            APP_URL + '/api/auth/google-login',
+            { email, name, avatar, origin },
+            config
+        )
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data,
+        })
+
+        localStorage.setItem('userInfo', JSON.stringify(data))
+    } catch (error) {
+
+        let errorMessage = [];
+        if (error.response) {
+            if (error.response.data.errors) {
+                errorMessage = [...error.response.data.errors]
+            } else if (error.response.data.message) {
+                errorMessage.push(error.response.data.message)
+            }
+        } else {
+            errorMessage.push(error.message)
+        }
+
+        dispatch({
+            type: USER_LOGIN_FAILURE,
+            payload: errorMessage
+        })
+    }
+}
+
+
+export const login = (email, password, origin) => async (dispatch) => {
     try {
         dispatch({
             type: USER_LOGIN_REQ,
@@ -107,7 +152,7 @@ export const login = (email, password) => async (dispatch) => {
 
         const { data } = await axios.post(
             APP_URL + '/api/auth/login',
-            { email, password },
+            { email, password, origin },
             config
         )
 
