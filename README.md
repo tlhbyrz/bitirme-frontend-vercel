@@ -1,1 +1,1 @@
-https://getirbiindirim.vercel.app/
+https://getirbiindirimapp.vercel.app/
